@@ -1,0 +1,29 @@
+.toastify-container {
+  font-size: 14px;
+  padding: 8px 12px;
+  max-width: 300px;
+  min-height: 50px;
+  border-radius: 6px;
+}
+
+.Toastify__toast {
+  max-width: 300px;
+}
+
+.Toastify__close-button {
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .toastify-container {
+    margin: 0 auto;
+    font-size: 12px;
+    padding: 6px 8px;
+    max-width: 60%;
+    border-radius: 4px;
+  }
+
+  .Toastify__toast {
+    min-height: 40px;
+  }
+}
