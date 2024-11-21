@@ -5,7 +5,7 @@ export const useRemedyStore = create((set) => ({
   setRemedies: (remedies) => set({ remedies }),
   createRemedy: async (newRemedy) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const useRemedyStore = create((set) => ({
   },
   fetchRemedies: async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`);
       if (!res.ok) {
         console.error("Failed to fetch remedies");
         return;
