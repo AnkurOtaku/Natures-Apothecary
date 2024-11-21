@@ -8,10 +8,13 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "serve": "vite preview --port=$PORT"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
     "bootstrap": "^5.3.3",
+    "concurrently": "^9.1.0",
     "naturalremedies": "file:..",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
@@ -20,7 +23,6 @@
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
     "vite": "^5.4.10",
-    "@vitejs/plugin-react": "^4.3.3",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
