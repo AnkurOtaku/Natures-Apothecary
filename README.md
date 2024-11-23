@@ -52,9 +52,9 @@ A full-stack web application that allows users to manage and view natural remedi
    npm install --prefix frontend
    ```
 3. Create a .env file in the root directory with the following variables:
-  ```bash
-  DATABASE_URI=your_mongo_db_connection_string
-  ```
+   ```bash
+   DATABASE_URI=your_mongo_db_connection_string
+   ```
 
 ## **Usage**
 ### **Development**
@@ -68,13 +68,13 @@ npm run dev
 
 ### **Production**
 1. Build the frontend
-```bash
-npm run build
-```
+ ```bash
+ npm run build
+ ```
 2. Start the production server:
-```bash
-npm start
-```
+ ```bash
+ npm start
+ ```
 3. Access the app at http://localhost:5000 .
 
 ## **Scripts**
@@ -85,18 +85,18 @@ npm start
 ## **Contriuting**
 1. Fork the repository.
 2. Create a feature branch:
-```bash
-git checkout -b feature/your-feature-name
-```
+ ```bash
+ git checkout -b feature/your-feature-name
+ ```
 3. Commit your changes:
-```bash
-git commit -m "Add your changes here"
-```
+ ```bash
+ git commit -m "Add your changes here"
+ ```
 
 4. Push the branch:
-```bash
-git push origin feature/your-feature-name
-```
+ ```bash
+ git push origin feature/your-feature-name
+ ```
 
 5. Open a pull request.
 

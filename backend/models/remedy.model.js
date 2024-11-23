@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const remedySchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    part: { type: String, required: true },
+    part: { type: Object, required: true },
     ingredients: { type: [String], required: true }, // Optional
     expiry: { type: String, required: true },
     forKids: { type: String, required: true },

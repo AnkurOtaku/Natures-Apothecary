@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";
 import target_area from "./target-area.js";
 import { useRemedyStore } from "../store/remedy.js";
@@ -7,119 +6,57 @@ import { toast } from "react-toastify";
 import "./CustomToastify.css";
 
 function AddRemedy() {
-  const [newRemedy, setNewRemedy] = useState({
-    name: "",
-    part: "",
-    ingredients: [],
-    expiry: "",
-    forKids: "",
-    recipe: [""],
-    caution: [""],
-  });
-
   const [ingredientInput, setIngredientInput] = useState("");
+  const [recipeInput, setRecipeInput] = useState("");
+  const [cautionInput, setCautionInput] = useState("");
   const { createRemedy } = useRemedyStore();
+  const [selectedPart, setSelectedPart] = useState(null);
 
-  const addIngredient = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission
-      if (ingredientInput.trim() !== "") {
-        setNewRemedy((prevState) => ({
-          ...prevState,
-          ingredients: [...prevState.ingredients, ingredientInput],
-        }));
-        setIngredientInput("");
-      }
-    }
-  };
-
-  const removeIngredient = (index) => {
-    setNewRemedy((prevState) => ({
-      ...prevState,
-      ingredients: prevState.ingredients.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addRecipeStep = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setNewRemedy((prevState) => ({
-        ...prevState,
-        recipe: [...prevState.recipe, ""],
-      }));
-    }
-  };
-
-  const updateRecipeStep = (index, value) => {
-    const updatedRecipe = [...newRemedy.recipe];
-    updatedRecipe[index] = value;
-    setNewRemedy({ ...newRemedy, recipe: updatedRecipe });
-  };
-
-  const removeRecipeStep = (index) => {
-    setNewRemedy((prevState) => ({
-      ...prevState,
-      recipe: prevState.recipe.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addCautionStep = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setNewRemedy((prevState) => ({
-        ...prevState,
-        caution: [...prevState.caution, ""],
-      }));
-    }
-  };
-
-  const updateCautionStep = (index, value) => {
-    const updatedCaution = [...newRemedy.caution];
-    updatedCaution[index] = value;
-    setNewRemedy({ ...newRemedy, caution: updatedCaution });
-  };
-
-  const removeCautionStep = (index) => {
-    setNewRemedy((prevState) => ({
-      ...prevState,
-      caution: prevState.caution.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleAddRemedy = async (event) => {
-    event.preventDefault();
+  const handleAddRemedy = async () => {
+    const newRemedy = {
+      name: document.getElementById("remedyName").value,
+      part: selectedPart,
+      ingredients: ingredientInput.split(",").map((item) => item.trim()), // Ingredients comma-separated
+      expiry: document.getElementById("expiry").value,
+      forKids:
+        document.querySelector("input[name='forKids']:checked")?.value || "",
+      recipe: recipeInput.split("\n").map((step) => step.trim()), // Recipe steps newline-separated
+      caution: cautionInput.split("\n").map((step) => step.trim()), // Caution steps newline-separated
+    };
+    console.log(document.getElementById("targetArea").value);
 
     const { status, message } = await createRemedy(newRemedy); // Zustand call
     console.log("Status: ", status, "Message: ", message);
 
+    // toast and reset values
     if (status) {
       toast.success("Remedy Added Successfully", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
         position: "bottom-center",
-        autoClose: 3000, // Closes after 3 seconds
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: false,
       });
 
-      // Reset form fields
-      setNewRemedy({
-        name: "",
-        part: "",
-        ingredients: [],
-        expiry: "",
-        forKids: "",
-        recipe: [""],
-        caution: [""],
-      });
+      // Reset all fields
+      document.getElementById("remedyName").value = "";
+      document.getElementById("targetArea").value = "";
+      setIngredientInput("");
+      document.getElementById("expiry").value = "";
+      setRecipeInput("");
+      setCautionInput("");
+      document
+        .querySelectorAll("input[name='forKids']")
+        .forEach((input) => (input.checked = false));
     } else {
       toast.error(message || "Something went wrong. Please try again.", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
         position: "bottom-center",
-        autoClose: 3000, // Closes after 3 seconds
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -133,8 +70,8 @@ function AddRemedy() {
       <h2 className="my-4 mx-auto">
         Enter Recipe Info <IoIosCreate />
       </h2>
-      <form className="row g-3" onSubmit={handleAddRemedy}>
-        {/* name */}
+      <div className="row g-3">
+        {/* Name */}
         <div className="col-md-6">
           <label htmlFor="remedyName" className="form-label">
             Name
@@ -144,14 +81,10 @@ function AddRemedy() {
             className="form-control shadow-none"
             id="remedyName"
             required
-            value={newRemedy.name}
-            onChange={(e) =>
-              setNewRemedy({ ...newRemedy, name: e.target.value })
-            }
           />
         </div>
 
-        {/* target area */}
+        {/* Target Area */}
         <div className="col-md-6">
           <label htmlFor="targetArea" className="form-label">
             Target Area
@@ -160,48 +93,33 @@ function AddRemedy() {
             className="form-select shadow-none"
             id="targetArea"
             required
-            value={newRemedy.part}
-            onChange={(e) =>
-              setNewRemedy({ ...newRemedy, part: e.target.value })
-            }
+            onChange={(e) => {
+              setSelectedPart(JSON.parse(e.target.value)); // Parse the JSON string back to an object
+            }}
           >
-            {target_area.map((area, index) => (
-              <option key={index} value={area}>
-                {area}
+            <option value="">Select an area</option>
+            {target_area.map((areas, index) => (
+              <option key={index} value={JSON.stringify(areas)}>
+                {areas.area}
               </option>
             ))}
           </select>
         </div>
 
-        {/* ingredients */}
+        {/* Ingredients */}
         <div className="col-md-6">
           <label htmlFor="ingredients" className="form-label">
-            Ingredients
+            Ingredients (Ex: 1, 2, 3, ...)
           </label>
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control shadow-none"
-              id="ingredients"
-              value={ingredientInput}
-              onChange={(e) => setIngredientInput(e.target.value)}
-              onKeyDown={addIngredient}
-            />
-          </div>
-          <div>
-            {newRemedy.ingredients.map((ingredient, index) => (
-              <span key={index} className="badge bg-secondary m-1">
-                {ingredient}
-                <FaTimes
-                  onClick={() => removeIngredient(index)}
-                  style={{ cursor: "pointer", marginLeft: "5px" }}
-                />
-              </span>
-            ))}
-          </div>
+          <textarea
+            className="form-control shadow-none"
+            id="ingredients"
+            value={ingredientInput}
+            onChange={(e) => setIngredientInput(e.target.value)}
+          ></textarea>
         </div>
 
-        {/* expiry */}
+        {/* Expiry */}
         <div className="col-md-4">
           <label htmlFor="expiry" className="form-label">
             Expiry (in days)
@@ -210,72 +128,39 @@ function AddRemedy() {
             type="number"
             className="form-control shadow-none"
             id="expiry"
-            required
             min="0"
             max="60"
-            value={newRemedy.expiry}
-            onChange={(e) =>
-              setNewRemedy({ ...newRemedy, expiry: e.target.value })
-            }
+            required
           />
         </div>
 
-        {/* recipe */}
+        {/* Recipe */}
         <div className="col-md-12">
-          <label className="form-label">Recipe Steps</label>
-          {newRemedy.recipe.map((step, index) => (
-            <div key={index} className="d-flex align-items-center">
-              <span className="me-2">{index + 1}.</span>
-              <input
-                type="text"
-                className="form-control shadow-none border-0 p-1"
-                style={{ height: "33px" }}
-                value={step}
-                required
-                onChange={(e) => updateRecipeStep(index, e.target.value)}
-                onKeyDown={addRecipeStep}
-              />
-              {index > 0 && (
-                <button
-                  type="button"
-                  className="btn btn-outline-danger ms-2 px-2 py-1"
-                  onClick={() => removeRecipeStep(index)}
-                >
-                  <FaTimes />
-                </button>
-              )}
-            </div>
-          ))}
+          <label htmlFor="recipe" className="form-label">
+            Recipe (use next line to add steps)
+          </label>
+          <textarea
+            className="form-control shadow-none"
+            id="recipe"
+            value={recipeInput}
+            onChange={(e) => setRecipeInput(e.target.value)}
+          ></textarea>
         </div>
 
-        {/* caution */}
+        {/* Caution */}
         <div className="col-md-12">
-          <label className="form-label">Caution (optional)</label>
-          {newRemedy.caution.map((step, index) => (
-            <div key={index} className="d-flex align-items-center mb-1">
-              <span className="me-2">{index + 1}.</span>
-              <input
-                type="text"
-                className="form-control shadow-none border-0 p-0"
-                style={{ height: "33px" }}
-                value={step}
-                onChange={(e) => updateCautionStep(index, e.target.value)}
-                onKeyDown={addCautionStep}
-              />
-              {index > 0 && (
-                <button
-                  type="button"
-                  className="btn btn-outline-danger ms-2"
-                  onClick={() => removeCautionStep(index)}
-                >
-                  <FaTimes />
-                </button>
-              )}
-            </div>
-          ))}
+          <label htmlFor="caution" className="form-label">
+            Caution (optional)
+          </label>
+          <textarea
+            className="form-control shadow-none"
+            id="caution"
+            value={cautionInput}
+            onChange={(e) => setCautionInput(e.target.value)}
+          ></textarea>
         </div>
 
-        {/* forkids */}
+        {/* For Kids */}
         <div className="col-md-6">
           <label className="form-label mx-2">For Kids under 10?</label>
           <div className="form-check form-check-inline">
@@ -285,10 +170,6 @@ function AddRemedy() {
               name="forKids"
               id="forKidsYes"
               value="yes"
-              checked={newRemedy.forKids === "yes"}
-              onChange={(e) =>
-                setNewRemedy({ ...newRemedy, forKids: e.target.value })
-              }
             />
             <label className="form-check-label" htmlFor="forKidsYes">
               Yes
@@ -301,10 +182,6 @@ function AddRemedy() {
               name="forKids"
               id="forKidsNo"
               value="no"
-              checked={newRemedy.forKids === "no"}
-              onChange={(e) =>
-                setNewRemedy({ ...newRemedy, forKids: e.target.value })
-              }
             />
             <label className="form-check-label" htmlFor="forKidsNo">
               No
@@ -312,13 +189,13 @@ function AddRemedy() {
           </div>
         </div>
 
-        {/* submit */}
+        {/* Submit */}
         <div className="col-12">
-          <button className="btn btn-success" type="submit">
-            Add
+          <button className="btn btn-success" onClick={handleAddRemedy}>
+            Add Remedy
           </button>
         </div>
-      </form>
+      </div>
     </>
   );
 }
