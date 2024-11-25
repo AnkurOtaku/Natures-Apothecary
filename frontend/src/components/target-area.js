@@ -32,7 +32,7 @@ const target_area = [
   {
     area: "Throat",
     image:
-      "https://media.istockphoto.com/id/521182903/photo/woman-holds-her-throat-sore-throat.jpg?s=2048x2048&w=is&k=20&c=cDaTbUHhkVAvg514bUDlJJueJlkjGeGsNcTUuLMuLTo=",
+      "https://plus.unsplash.com/premium_photo-1671717725630-9420d7afae27?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     area: "Teeth",
@@ -42,7 +42,7 @@ const target_area = [
   {
     area: "Gums",
     image:
-      "https://media.istockphoto.com/id/1788160073/photo/woman-showing-healthy-gums-on-white-background-closeup-space-for-text.jpg?s=2048x2048&w=is&k=20&c=TLYjzSm29EwNg8U59rqiZ5OGZgHr30ElxxWC4kEz590=",
+      "https://cdn.smilespecialistssuite.com.au/wp-content/uploads/2024/02/how-to-identify-unhealthy-gums.jpg",
   },
   {
     area: "Mouth",
@@ -117,7 +117,7 @@ const target_area = [
   {
     area: "Pancreas",
     image:
-      "https://media.istockphoto.com/id/1130313886/photo/human-pancreas-anatomy.webp?s=2048x2048&w=is&k=20&c=QrSmKKiq--dOxlwd8KChNCclye5puMDSTkh-O904Ebo=",
+      "https://media.post.rvohealth.io/wp-content/uploads/2020/08/732x549_THUMBNAIL_Can_you_live_without_a_pancreas-1-732x549.jpg",
   },
   {
     area: "Intestines",
@@ -132,57 +132,57 @@ const target_area = [
   {
     area: "Spine",
     image:
-      "https://media.istockphoto.com/id/975681354/photo/lower-back-pain.jpg?s=2048x2048&w=is&k=20&c=Ow7jpVBJPVa2gsk45RY5HKRX-QWwWHYleOibyAbUawE=",
+      "https://d35oenyzp35321.cloudfront.net/spine_surgery_7be2e8e68e.jpg",
   },
   {
     area: "Hips",
     image:
-      "https://media.istockphoto.com/id/1357527633/photo/hip-pain-woman-suffering-from-osteoarthritis-at-home.jpg?s=2048x2048&w=is&k=20&c=APQ877GR-B-Vo8s-8lKNohudT7qNqy11TGqQXkBRDDs=",
+      "https://i0.wp.com/embracelife.net.au/wp-content/uploads/2018/04/Hip-pain.jpg?ssl=1",
   },
   {
     area: "Buttocks",
     image:
-      "https://media.istockphoto.com/id/1318151496/photo/man-suffer-from-hemorrhoids-man-hand-holding-his-bottom-because-hemorrhoids-man-with.jpg?s=2048x2048&w=is&k=20&c=4W8PiNkmSWu7ynm5NnTi9ui11JFAXNgD0cct5XxG1P0=",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfJiGqyCDSOGQsm1mE2RxQkvjXgk-Nhfs4V2tGuy-NZs9WOvbg2gN5H7FJv6_fq2lYD3A&usqp=CAU",
   },
   {
     area: "Legs",
     image:
-      "https://media.istockphoto.com/id/616002088/photo/running-on-tracks.jpg?s=2048x2048&w=is&k=20&c=Ij15N95D2AV9kc_6p0lY7WgcmS2-ZuefO74x_KlwM5Q=",
+      "https://www.astramedicare.ca/uploads/6/4/4/7/6447121/astra-healthy-legs-min_orig.jpg",
   },
   {
     area: "Knees",
     image:
-      "https://media.istockphoto.com/id/1254522648/photo/pain-in-the-knee-joints-of-the-child-the-boys-knees-hurt.jpg?s=2048x2048&w=is&k=20&c=70dmm5dnpdjzQuKjZHWlDwcS-hBH4Sv6vesJQWVpUmU=",
+      "https://www.chambersapothecary.com/wp-content/uploads/2020/05/keeping-your-knees-healthy.jpg",
   },
   {
     area: "Ankles",
     image:
-      "https://media.istockphoto.com/id/1417849907/photo/senior-woman-sitting-on-sofa-holds-her-ankle-injury-feeling-pain.jpg?s=2048x2048&w=is&k=20&c=eP48HEC60Gv2E4ExxPSAjr3w_D04Za0HyGhdXY6XZkE=",
+      "https://i.shgcdn.com/25671758-cf83-44e8-a800-1621642dc373/-/format/auto/-/preview/3000x3000/-/quality/lighter/",
   },
   {
     area: "Feet",
     image:
-      "https://media.istockphoto.com/id/1045328130/photo/closeup-young-woman-feeling-pain-in-her-foot.jpg?s=2048x2048&w=is&k=20&c=zX5jc9pm8gIRn3aXDOk65HGzObyCd6U_Co3jUiYsMhQ=",
+      "https://images.squarespace-cdn.com/content/v1/5723a4dc40261dcef4d753b0/4c8869b3-7143-4f4c-a2c5-680e6c059328/image-asset.png",
   },
   {
     area: "Toes",
     image:
-      "https://media.istockphoto.com/id/152138208/photo/beautiful-female-feet-with-french-pedicure-closeup.jpg?s=2048x2048&w=is&k=20&c=QkwPeVXkqLmnEXnaZt54YfQ05bF5RdOzpfcN4xhNaXY=",
+      "https://naturalfootgear.com/cdn/shop/articles/Toes_Foot_Health_850x.jpg?v=1620765673",
   },
   {
     area: "Skin",
     image:
-      "https://media.istockphoto.com/id/1010039320/photo/extreme-close-up-of-tanned-skin-on-male-hand.jpg?s=2048x2048&w=is&k=20&c=2keulKxlNeGHj8-PAKdsLZd6CXLXQUQlqVtEZG74nZE=",
+      "https://media.istockphoto.com/id/638453120/photo/skin-of-woman-hand.jpg?s=612x612&w=0&k=20&c=LkBCrHlioWa1L1in5XtHdlW565HrkV0cEuY8aW6Y0-w=",
   },
   {
     area: "Muscles",
     image:
-      "https://media.istockphoto.com/id/1017804196/vector/muscles-of-the-chest.jpg?s=2048x2048&w=is&k=20&c=AXc8Y1gr0cOgTj1hV_2qX22NvZtgETFTm7A8MiNKCxM=",
+      "https://t4.ftcdn.net/jpg/09/80/75/63/360_F_980756378_J3kFcLsDibebOgZ3Z1FFPzhBjQHBUWl5.jpg",
   },
   {
     area: "Joints",
     image:
-      "https://media.istockphoto.com/id/1156927918/photo/pain-in-all-joints-conceptual-artwork-3d-illustration.jpg?s=2048x2048&w=is&k=20&c=C4Gl85K3gO87U0sy1opbOWd_8PD4Q5X8P-tnsQHzO60=",
+      "https://t4.ftcdn.net/jpg/00/62/07/95/360_F_62079559_ug3q3V4rccgvHgqrFmmLBFKWUsxGuvNe.jpg",
   },
 ];
 

@@ -5,6 +5,7 @@ import AddRemedy from "./components/AddRemedy.jsx";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Result from "./components/Result.jsx";
+import NotFound from "./components/NotFound.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,7 +17,10 @@ createRoot(document.getElementById("root")).render(
       <div className="container-lg">
         <Routes>
           <Route path="/" element={<Result />} />
+          <Route path="/admin" element={<Result />} />
           <Route path="/add" element={<AddRemedy />} />
+          <Route path="/update" element={<AddRemedy />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </div>

@@ -50,7 +50,7 @@ export const updatedRemedy = async (req, res) => {
     });
     res.status(200).json({ status: true, data: updatedRemedy });
   } catch (error) {
-    console.error("Error in updating product: ", error.message);
+    console.error("Error in updating remedy: ", error.message);
     res.status(500).json({ status: false, message: "Internal Server Error" });
   }
 };

@@ -9,23 +9,9 @@ function Result() {
     fetchRemedies();
   }, [fetchRemedies]);
 
-  console.log("Remedies : ", remedies);
-
-  const phrases = [
-    "Natural Cure Solutions",
-    "Wellness Remedies for You",
-    "Holistic Healing Finds",
-    "Health Boost Remedies",
-  ];
-
-  const getRandomPhrase = () => {
-    const randomIndex = Math.floor(Math.random() * phrases.length);
-    return phrases[randomIndex];
-  };
-
   return (
     <div className="container">
-      <h1 className="text-center my-4">{getRandomPhrase()}</h1>
+      <h1 className="text-center my-4">Natural Cure Remedies</h1>
       {remedies.length > 0 ? (
         <div className="row">
           {remedies.map((remedy) => {

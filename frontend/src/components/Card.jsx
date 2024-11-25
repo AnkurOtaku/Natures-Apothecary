@@ -1,7 +1,42 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { useRemedyStore } from "../store/remedy";
+import { toast } from "react-toastify";
+import "./CustomToastify.css";
 
 function Card({ remedy, modalId }) {
+  const location = useLocation();
+  const { deleteRemedy } = useRemedyStore();
+
+  const handleDeleteRemedy = async (rid) => {
+    const { status, message } = await deleteRemedy(rid);
+    if (status) {
+      toast.success("Remedy Deleted Successfully", {
+        className: "toastify-container",
+        bodyClassName: "toastify-container",
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+      });
+    } else {
+      toast.error(message || "Something went wrong. Please try again.", {
+        className: "toastify-container",
+        bodyClassName: "toastify-container",
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+      });
+    }
+  };
+
   return (
     <div className="col-md-4 col-sm-6 mb-3">
       <div className="card text-white rounded-3">
@@ -14,6 +49,30 @@ function Card({ remedy, modalId }) {
         <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
         <div className="card-img-overlay">
           <div className="card-body p-0">
+            {location.pathname == "/admin" ? (
+              <div
+                type="button"
+                className="text-danger p-2 position-absolute top-0 end-0"
+                data-bs-dismiss="offcanvasDark"
+                aria-label="Close"
+                onClick={() => {
+                  handleDeleteRemedy(remedy._id);
+                }}
+              >
+                <MdDelete size={"1.3em"} />
+              </div>
+            ) : (
+              <Link
+                type="button"
+                className="text-info bg-info-subtle p-1 position-absolute top-0 end-0 rounded"
+                data-bs-dismiss="offcanvasDark"
+                aria-label="Update"
+                to="/update"
+                state={{ remedy }}
+              >
+                <MdEdit size={"1.3em"} />
+              </Link>
+            )}
             <h5 className="card-title text-capitalize">{remedy.name}</h5>
             {remedy.ingredients && (
               <p className="card-text">{remedy.ingredients.join(", ")}</p>
@@ -89,7 +148,7 @@ function Card({ remedy, modalId }) {
                     )}
                     <div className="fw-semibold text-capitalize">
                       Expiry :{" "}
-                      <span className="fw-normal">{remedy.expiry} days</span>
+                      <span className="fw-normal">{remedy.expiry==99?'Never':`${remedy.expiry} days`}</span>
                     </div>
                     <div className="fw-semibold text-capitalize">
                       {remedy.forKids == "yes"
