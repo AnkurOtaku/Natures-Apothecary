@@ -11,7 +11,6 @@ const app = express();
 // Get the port from the environment variable (Render provides this automatically)
 const PORT = process.env.PORT || 5000;
 
-const __dirname = path.resolve();
 app.use(express.json()); // Accept JSON data in req.body
 
 // API routes

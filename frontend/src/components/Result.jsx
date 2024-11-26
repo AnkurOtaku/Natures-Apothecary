@@ -3,10 +3,10 @@ import { useRemedyStore } from "../store/remedy";
 import Card from "./Card";
 
 function Result() {
-  const { fetchRemedies, remedies } = useRemedyStore();
+  const { fetchRemedies, remedies, filter } = useRemedyStore();
 
   useEffect(() => {
-    fetchRemedies();
+      fetchRemedies();
   }, [fetchRemedies]);
 
   return (
@@ -15,6 +15,9 @@ function Result() {
       {remedies.length > 0 ? (
         <div className="row">
           {remedies.map((remedy) => {
+            if (filter && remedy.part !== filter) {
+              return;
+            }
             // Create a unique ID for each modal using the remedy's `_id`
             const remedyId = remedy._id?.$oid || remedy._id; // Use $oid if it exists, else fallback to _id
             const modalId = `modal-${remedyId}`; // Unique modal ID

@@ -17,7 +17,7 @@ createRoot(document.getElementById("root")).render(
       <div className="container-lg">
         <Routes>
           <Route path="/" element={<Result />} />
-          <Route path="/admin" element={<Result />} />
+          <Route path="/delete" element={<Result />} />
           <Route path="/add" element={<AddRemedy />} />
           <Route path="/update" element={<AddRemedy />} />
           <Route path="*" element={<NotFound />} />

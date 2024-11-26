@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { IoIosCreate } from "react-icons/io";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import target_area from "./target-area.js";
+import targetArea from "./targetArea.js";
 import { useRemedyStore } from "../store/remedy.js";
 import { toast } from "react-toastify";
 import "./CustomToastify.css";
@@ -28,10 +28,11 @@ function AddRemedy() {
       const remedy = location.state?.remedy;
       document.getElementById("remedyName").value = remedy.name;
       setSelectedPart(remedy.part);
-      document.getElementById("ingredients").value = remedy.ingredients.join(', ');
+      document.getElementById("ingredients").value =
+        remedy.ingredients.join(", ");
       document.getElementById("expiry").value = remedy.expiry;
-      document.getElementById("recipe").value = remedy.recipe.join('\n');
-      document.getElementById("caution").value = remedy.caution.join('\n');
+      document.getElementById("recipe").value = remedy.recipe.join("\n");
+      document.getElementById("caution").value = remedy.caution.join("\n");
       document
         .querySelectorAll("input[name='forKids']")
         .forEach((input) => (input.checked = remedy.forKids));
@@ -41,7 +42,7 @@ function AddRemedy() {
   function toastAndResetValue(status, message) {
     // toast and reset values
     if (status) {
-      toast.success(message , {
+      toast.success(message, {
         className: "toastify-container",
         bodyClassName: "toastify-container",
         position: "bottom-center",
@@ -54,7 +55,7 @@ function AddRemedy() {
 
       // Reset all fields
       document.getElementById("remedyName").value = "";
-      document.getElementById("targetArea").value = "";
+      setSelectedPart("");
       document.getElementById("ingredients").value = "";
       document.getElementById("expiry").value = "";
       document.getElementById("recipe").value = "";
@@ -85,14 +86,22 @@ function AddRemedy() {
     const newRemedy = {
       name: document.getElementById("remedyName").value,
       part: selectedPart,
-      ingredients: document.getElementById("ingredients").value.split(",").map((item) => item.trim()), // Ingredients comma-separated
+      ingredients: document
+        .getElementById("ingredients")
+        .value.split(",")
+        .map((item) => item.trim()), // Ingredients comma-separated
       expiry: document.getElementById("expiry").value,
-      forKids: document.querySelector("input[name='forKids']:checked")?.value || "",
-      recipe: document.getElementById("recipe").value.split("\n").map((step) => step.trim()), // Recipe steps newline-separated
-      caution: document.getElementById("caution").value.split("\n").map((step) => step.trim()), // Caution steps newline-separated
+      forKids:
+        document.querySelector("input[name='forKids']:checked")?.value || "",
+      recipe: document.getElementById("recipe").value
+        .split("\n")
+        .map((step) => step.trim()), // Recipe steps newline-separated
+      caution: document.getElementById("caution")
+        .value?.split("\n")
+        .map((step) => step.trim()), // Caution steps newline-separated
     };
 
-    if (newRemedy.expiry < 0) {
+    if (newRemedy.expiry < 0 || newRemedy.expiry > 99) {
       toast.error("Please Enter Valid Expiry", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
@@ -111,20 +120,29 @@ function AddRemedy() {
       console.error("Failed to update remedy. Response:", response);
       return;
     }
-    console.log("Status: ", status, "Message: ", message);
 
-    toastAndResetValue(status, 'Remedy Added Succesfully');
+    toastAndResetValue(status, "Remedy Added Succesfully");
   };
 
   const handleUpdateRemedy = async () => {
     const updatedRemedy = {
       name: document.getElementById("remedyName").value,
       part: selectedPart,
-      ingredients: document.getElementById("ingredients").value.split(",").map((item) => item.trim()), // Ingredients comma-separated
+      ingredients: document
+        .getElementById("ingredients")
+        .value.split(",")
+        .map((item) => item.trim()), // Ingredients comma-separated
       expiry: document.getElementById("expiry").value,
-      forKids: document.querySelector("input[name='forKids']:checked")?.value || "",
-      recipe: document.getElementById("recipe").value.split("\n").map((step) => step.trim()), // Recipe steps newline-separated
-      caution: document.getElementById("caution").value.split("\n").map((step) => step.trim()), // Caution steps newline-separated
+      forKids:
+        document.querySelector("input[name='forKids']:checked")?.value || "",
+      recipe: document
+        .getElementById("recipe")
+        .value.split("\n")
+        .map((step) => step.trim()), // Recipe steps newline-separated
+      caution: document
+        .getElementById("caution")
+        .value?.split("\n")
+        .map((step) => step.trim()), // Caution steps newline-separated
     };
 
     if (updatedRemedy.expiry < 0) {
@@ -141,15 +159,17 @@ function AddRemedy() {
       return;
     }
 
-    const { status, message } = await updateRemedy(location.state.remedy._id, updatedRemedy); // Zustand call
+    const { status, message } = await updateRemedy(
+      location.state.remedy._id,
+      updatedRemedy
+    ); // Zustand call
     if (!status || !message) {
-      console.error("Failed to update remedy. Received no response."+status+message);
+      console.error("Failed to update remedy. Received no response.");
       return;
     }
-    console.log("Status: ", status, "Message: ", message);
 
-    toastAndResetValue(status, 'Remedy Updated Successfully');
-  }
+    toastAndResetValue(status, "Remedy Updated Successfully");
+  };
 
   return (
     <>
@@ -180,12 +200,12 @@ function AddRemedy() {
             id="targetArea"
             required
             onChange={(e) => {
-              setSelectedPart(JSON.parse(e.target.value)); // Parse the JSON string back to an object
+              setSelectedPart(e.target.value);
             }}
           >
             <option value="">Select an area</option>
-            {target_area.map((areas, index) => (
-              <option key={index} value={JSON.stringify(areas)}>
+            {targetArea.map((areas, index) => (
+              <option key={index} value={areas.area}>
                 {areas.area}
               </option>
             ))}
@@ -245,7 +265,7 @@ function AddRemedy() {
             className="form-control shadow-none"
             id="recipe"
             placeholder={`add ingredient 1\nadd ingredient 2\nmix well`}
-            rows={3}
+            rows={4}
             required
           ></textarea>
         </div>
@@ -259,7 +279,7 @@ function AddRemedy() {
             className="form-control shadow-none"
             id="caution"
             placeholder={`Consume it hot\nKeep it in air tight container`}
-            rows={3}
+            rows={4}
             required
           ></textarea>
         </div>

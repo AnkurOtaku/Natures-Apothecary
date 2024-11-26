@@ -1,4 +1,4 @@
-const target_area = [
+const targetArea = [
   {
     area: "Hair",
     image:
@@ -186,4 +186,4 @@ const target_area = [
   },
 ];
 
-export default target_area;
+export default targetArea;

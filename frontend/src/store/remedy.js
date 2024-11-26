@@ -1,8 +1,9 @@
 import { create } from "zustand";
 
 export const useRemedyStore = create((set) => ({
-  remedies: [],
+  remedies: [], filter: '',
   setRemedies: (remedies) => set({ remedies }),
+  setFilter: (filter) => set({filter}),
   createRemedy: async (newRemedy) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`, {
