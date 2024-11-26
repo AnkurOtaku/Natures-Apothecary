@@ -20,11 +20,9 @@ console.log("Environment:", process.env.NODE_ENV);
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
-  const staticPath = path.join(__dirname, "/frontend/dist");
-  console.log("Serving static files from:", staticPath);
-  app.use(express.static(staticPath));
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  // Serve the index.html for any non-API routes (to handle React Router)
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
