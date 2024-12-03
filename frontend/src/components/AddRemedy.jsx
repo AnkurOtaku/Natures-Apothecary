@@ -10,7 +10,7 @@ import "./CustomToastify.css";
 function AddRemedy() {
   const [selectedPart, setSelectedPart] = useState(null);
 
-  const { createRemedy, updateRemedy } = useRemedyStore();
+  const { createRemedy, updateRemedy, loading } = useRemedyStore();
 
   let navigate = useNavigate();
   const location = useLocation();
@@ -187,6 +187,7 @@ function AddRemedy() {
             className="form-control shadow-none"
             id="remedyName"
             required
+            disabled={loading}
           />
         </div>
 
@@ -202,6 +203,7 @@ function AddRemedy() {
             onChange={(e) => {
               setSelectedPart(e.target.value);
             }}
+            disabled={loading}
           >
             <option value="">Select an area</option>
             {targetArea.map((areas, index) => (
@@ -222,6 +224,7 @@ function AddRemedy() {
             id="ingredients"
             placeholder={`1, 2, 3, 4 ,....`}
             rows={2}
+            disabled={loading}
           ></textarea>
         </div>
 
@@ -253,6 +256,7 @@ function AddRemedy() {
             min="0"
             max="60"
             required
+            disabled={loading}
           />
         </div>
 
@@ -267,6 +271,7 @@ function AddRemedy() {
             placeholder={`add ingredient 1\nadd ingredient 2\nmix well`}
             rows={4}
             required
+            disabled={loading}
           ></textarea>
         </div>
 
@@ -281,6 +286,7 @@ function AddRemedy() {
             placeholder={`Consume it hot\nKeep it in air tight container`}
             rows={4}
             required
+            disabled={loading}
           ></textarea>
         </div>
 
@@ -294,6 +300,7 @@ function AddRemedy() {
               name="forKids"
               id="forKidsYes"
               value="yes"
+              disabled={loading}
             />
             <label className="form-check-label" htmlFor="forKidsYes">
               Yes
@@ -306,6 +313,7 @@ function AddRemedy() {
               name="forKids"
               id="forKidsNo"
               value="no"
+              disabled={loading}
             />
             <label className="form-check-label" htmlFor="forKidsNo">
               No
@@ -315,8 +323,9 @@ function AddRemedy() {
 
         {/* Submit */}
         <div className="col-12">
-          <button className="btn btn-success" onClick={handleSubmit}>
-            {location.state ? "Update" : "Add Remedy"}
+          <button className="btn btn-success" onClick={handleSubmit} disabled={loading}>
+          {location.state ? "Update" : "Add Remedy"}
+          {loading && <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>}
           </button>
         </div>
       </div>

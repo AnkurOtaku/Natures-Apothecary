@@ -30,7 +30,7 @@ function Navbar() {
     >
       <div className="container-lg">
         <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
-          <div className="col-12 col-md-6 text-center text-md-start my-2">
+          <div className="col text-center text-md-start my-2">
             <Link
               className={`navbar-brand m-0 ${
                 isDarkMode ? "text-light" : "text-dark"
@@ -45,7 +45,7 @@ function Navbar() {
               />
             </Link>
           </div>
-          <div className="col-6 d-flex flex-row align-items-center my-2">
+          <div className="col d-flex flex-row align-items-center my-2">
               <select
                 className="form-select shadow-none mb-md-0"
                 id="filter"

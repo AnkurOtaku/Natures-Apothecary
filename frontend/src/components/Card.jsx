@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useRemedyStore } from "../store/remedy";
 import { toast } from "react-toastify";
@@ -11,6 +10,7 @@ import defaultImage from "/defaul-remedy-image.jpg";
 function Card({ remedy, modalId }) {
   const location = useLocation();
   const { deleteRemedy } = useRemedyStore();
+  const [image, setImage] = useState(defaultImage);
 
   const handleDeleteRemedy = async (rid) => {
     const { status, message } = await deleteRemedy(rid);
@@ -41,7 +41,6 @@ function Card({ remedy, modalId }) {
 
   function findImage(area) {
     const imageArea = targetArea.find((part) => part.area === area);
-    // console.log('length: ' + remedy.caution.length);
     return imageArea?.image || defaultImage;
   }
 
@@ -53,10 +52,11 @@ function Card({ remedy, modalId }) {
           data-bs-target={`#${modalId}`} // Link button to unique modal ID
         >
           <img
-            src={findImage(remedy.part)}
+            src={image}
             className="card-img-top img-fluid rounded-3"
             alt={remedy.part || "remedy"}
             style={{ objectFit: "cover", height: "200px" }}
+            onLoad={()=>{setImage(findImage(remedy.part))}}
           />
           <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
           <div className="card-img-overlay">
@@ -68,7 +68,7 @@ function Card({ remedy, modalId }) {
 
               {/* Unique modal for each remedy */}
               <div
-                className="modal fade"
+                className="modal fade pe-0"
                 id={modalId}
                 tabIndex={-1}
                 aria-labelledby={`${modalId}Label`}
