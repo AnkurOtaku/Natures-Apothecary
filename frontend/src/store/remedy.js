@@ -66,6 +66,12 @@ export const useRemedyStore = create((set) => ({
       set(()=>({loading : false}));
 
       if (!data.status) return { status: false, message: data.message };
+      
+      // update the ui immediately, without needing a refresh
+      set((state) => ({
+        remedies: state.remedies.filter((remedy) => remedy._id !== rid),
+      }));
+
       return { status: true, message: data.message };
     } catch (error) {
       set(()=>({loading : false}));
