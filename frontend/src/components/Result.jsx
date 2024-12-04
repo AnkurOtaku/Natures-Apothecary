@@ -4,8 +4,7 @@ import Card from "./Card";
 import Loading from "./Loading";
 
 function Result() {
-  const { fetchRemedies, remedies, filter, loading } =
-    useRemedyStore();
+  const { fetchRemedies, remedies, filter, loading } = useRemedyStore();
 
   useEffect(() => {
     fetchRemedies();
@@ -13,7 +12,11 @@ function Result() {
 
   return (
     <div className="container">
-      <h1 className="text-center my-4">Natural Cure Remedies</h1>
+      <h1 className="text-center mt-4">Natural Cure Remedies</h1>
+      <div className="text-center mb-4 fs-5">
+        <span style={{color:'#fa8128'}}>Slow to act,</span>
+        <span className="text-success"> Sure to heal.</span>
+      </div>
       {loading && <Loading />}
       {remedies.length > 0 ? (
         <div className="row">
@@ -29,10 +32,12 @@ function Result() {
             return <Card key={remedyId} remedy={remedy} modalId={modalId} />;
           })}
         </div>
-      ) : !loading && (
-        <div className="fs-5 text-center fw-semibold">
-          No remedies to show. Please add Remedies.
-        </div>
+      ) : (
+        !loading && (
+          <div className="fs-5 text-center fw-semibold">
+            No remedies to show. Please add Remedies.
+          </div>
+        )
       )}
     </div>
   );

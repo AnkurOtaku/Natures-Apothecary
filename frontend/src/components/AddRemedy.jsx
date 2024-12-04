@@ -180,7 +180,7 @@ function AddRemedy() {
         {/* Name */}
         <div className="col-md-6">
           <label htmlFor="remedyName" className="form-label">
-            Name
+            Helps In
           </label>
           <input
             type="text"
@@ -325,7 +325,7 @@ function AddRemedy() {
         <div className="col-12">
           <button className="btn btn-success" onClick={handleSubmit} disabled={loading}>
           {location.state ? "Update" : "Add Remedy"}
-          {loading && <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>}
+          {loading && <span className="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>}
           </button>
         </div>
       </div>
