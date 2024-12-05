@@ -26,13 +26,14 @@ function AddRemedy() {
 
     if (location.state) {
       const remedy = location.state?.remedy;
-      document.getElementById("remedyName").value = remedy.name;
+      document.getElementById("name").value = remedy.name;
       setSelectedPart(remedy.part);
       document.getElementById("ingredients").value =
         remedy.ingredients.join(", ");
       document.getElementById("expiry").value = remedy.expiry;
       document.getElementById("recipe").value = remedy.recipe.join("\n");
       document.getElementById("caution").value = remedy.caution.join("\n");
+      document.getElementById("dosage").value = remedy.dosage;
       document
         .querySelectorAll("input[name='forKids']")
         .forEach((input) => (input.checked = remedy.forKids));
@@ -54,12 +55,13 @@ function AddRemedy() {
       });
 
       // Reset all fields
-      document.getElementById("remedyName").value = "";
+      document.getElementById("name").value = "";
       setSelectedPart("");
       document.getElementById("ingredients").value = "";
       document.getElementById("expiry").value = "";
       document.getElementById("recipe").value = "";
       document.getElementById("caution").value = "";
+      document.getElementById("dosage").value = "";
       document
         .querySelectorAll("input[name='forKids']")
         .forEach((input) => (input.checked = false));
@@ -84,21 +86,24 @@ function AddRemedy() {
 
   const handleAddRemedy = async () => {
     const newRemedy = {
-      name: document.getElementById("remedyName").value,
+      name: document.getElementById("name").value,
       part: selectedPart,
       ingredients: document
         .getElementById("ingredients")
         .value.split(",")
         .map((item) => item.trim()), // Ingredients comma-separated
       expiry: document.getElementById("expiry").value,
-      forKids:
-        document.querySelector("input[name='forKids']:checked")?.value || "",
-      recipe: document.getElementById("recipe").value
-        .split("\n")
+      recipe: document
+        .getElementById("recipe")
+        .value.split("\n")
         .map((step) => step.trim()), // Recipe steps newline-separated
-      caution: document.getElementById("caution")
+      caution: document
+        .getElementById("caution")
         .value?.split("\n")
         .map((step) => step.trim()), // Caution steps newline-separated
+      dosage: document.getElementById("dosage").value,
+      forKids:
+        document.querySelector("input[name='forKids']:checked")?.value || "",
     };
 
     if (newRemedy.expiry < 0 || newRemedy.expiry > 99) {
@@ -117,7 +122,7 @@ function AddRemedy() {
 
     const { status, message } = await createRemedy(newRemedy); // Zustand call
     if (!status || !message) {
-      console.error("Failed to update remedy. Response:", response);
+      toastAndResetValue(status, message);
       return;
     }
 
@@ -126,15 +131,13 @@ function AddRemedy() {
 
   const handleUpdateRemedy = async () => {
     const updatedRemedy = {
-      name: document.getElementById("remedyName").value,
+      name: document.getElementById("name").value,
       part: selectedPart,
       ingredients: document
         .getElementById("ingredients")
         .value.split(",")
         .map((item) => item.trim()), // Ingredients comma-separated
       expiry: document.getElementById("expiry").value,
-      forKids:
-        document.querySelector("input[name='forKids']:checked")?.value || "",
       recipe: document
         .getElementById("recipe")
         .value.split("\n")
@@ -143,6 +146,9 @@ function AddRemedy() {
         .getElementById("caution")
         .value?.split("\n")
         .map((step) => step.trim()), // Caution steps newline-separated
+      forKids:
+        document.querySelector("input[name='forKids']:checked")?.value || "",
+      dosage: document.getElementById("dosage").value,
     };
 
     if (updatedRemedy.expiry < 0) {
@@ -164,7 +170,7 @@ function AddRemedy() {
       updatedRemedy
     ); // Zustand call
     if (!status || !message) {
-      console.error("Failed to update remedy. Received no response.");
+      toastAndResetValue(status, message);
       return;
     }
 
@@ -179,13 +185,13 @@ function AddRemedy() {
       <div className="row g-3">
         {/* Name */}
         <div className="col-md-6">
-          <label htmlFor="remedyName" className="form-label">
+          <label htmlFor="name" className="form-label">
             Helps In
           </label>
           <input
             type="text"
             className="form-control shadow-none"
-            id="remedyName"
+            id="name"
             required
             disabled={loading}
           />
@@ -290,42 +296,70 @@ function AddRemedy() {
           ></textarea>
         </div>
 
-        {/* For Kids */}
+        {/* Dosage */}
         <div className="col-md-6">
-          <label className="form-label mx-2">For Kids under 10?</label>
-          <div className="form-check form-check-inline">
+          <label htmlFor="dosage" className="form-label">
+            Dosage
+          </label>
+          <input
+            type="text"
+            className="form-control shadow-none"
+            id="dosage"
+            required
+            disabled={loading}
+          />
+        </div>
+
+        {/* For Kids */}
+        <div className="col-md-6 row mt-2 align-items-center">
+          <label className="form-label col m-0">For Kids under 10?</label>
+          <div className="w-100 d-none d-md-block"></div>
+          <div className="col">
             <input
-              className="form-check-input shadow-none"
               type="radio"
+              className="btn-check"
               name="forKids"
               id="forKidsYes"
               value="yes"
               disabled={loading}
+              autoComplete="off"
+              defaultChecked=""
             />
-            <label className="form-check-label" htmlFor="forKidsYes">
+            <label
+              className="btn btn-outline-success me-4"
+              htmlFor="forKidsYes"
+            >
               Yes
             </label>
-          </div>
-          <div className="form-check form-check-inline">
             <input
-              className="form-check-input"
               type="radio"
+              className="btn-check"
               name="forKids"
               id="forKidsNo"
               value="no"
               disabled={loading}
+              autoComplete="off"
             />
-            <label className="form-check-label" htmlFor="forKidsNo">
+            <label className="btn btn-outline-danger" htmlFor="forKidsNo">
               No
             </label>
           </div>
         </div>
 
         {/* Submit */}
-        <div className="col-12">
-          <button className="btn btn-success" onClick={handleSubmit} disabled={loading}>
-          {location.state ? "Update" : "Add Remedy"}
-          {loading && <span className="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>}
+        <div className="col-12 mb-4">
+          <button
+            className="btn btn-success"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {location.state ? "Update" : "Add Remedy"}
+            {loading && (
+              <span
+                className="spinner-border spinner-border-sm ms-2"
+                aria-hidden="true"
+              ></span>
+            )}
           </button>
         </div>
       </div>

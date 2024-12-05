@@ -14,9 +14,9 @@ export const getRemedies = async (req, res) => {
 
 // CREATE
 export const createRemedy = async (req, res) => {
-  const { name, part, expiry, recipe, forKids } = req.body;
+  const { name, part, expiry, recipe, forKids, dosage } = req.body;
 
-  if (!name || !part || !expiry || !recipe || !forKids) {
+  if (!name || !part || !expiry || !recipe || !forKids || !dosage) {
     return res
       .status(400)
       .json({ status: false, message: "Please provide all required fields" });

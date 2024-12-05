@@ -56,7 +56,9 @@ function Card({ remedy, modalId }) {
             className="card-img-top img-fluid rounded-3"
             alt={remedy.part || "remedy"}
             style={{ objectFit: "cover", height: "200px" }}
-            onLoad={()=>{setImage(findImage(remedy.part))}}
+            onLoad={() => {
+              setImage(findImage(remedy.part));
+            }}
           />
           <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
           <div className="card-img-overlay">
@@ -127,6 +129,12 @@ function Card({ remedy, modalId }) {
                         </div>
                       )}
                       <div className="fw-semibold text-capitalize">
+                        Dosage :{" "}
+                        <span className="fw-normal">
+                          {remedy.dosage ? remedy.dosage : "undefined"}
+                        </span>
+                      </div>
+                      <div className="fw-semibold text-capitalize">
                         Expiry :{" "}
                         <span className="fw-normal">
                           {remedy.expiry == 99
@@ -146,7 +154,7 @@ function Card({ remedy, modalId }) {
             </div>
           </div>
         </div>
-        
+
         {/* Edit and Delete Buttons */}
         {location.pathname == "/delete" ? (
           <div

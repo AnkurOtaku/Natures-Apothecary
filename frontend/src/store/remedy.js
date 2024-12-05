@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 export const useRemedyStore = create((set) => ({
   remedies: [], filter: '', loading: false,
@@ -42,6 +43,16 @@ export const useRemedyStore = create((set) => ({
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`);
       if (!res.ok) {
         console.error("Failed to fetch remedies");
+        toast.error("Failed to fetch remedies", {
+          className: "toastify-container",
+          bodyClassName: "toastify-container",
+          position: "bottom-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+        });
         set(()=>({loading : false}));
         return;
       }
@@ -51,6 +62,16 @@ export const useRemedyStore = create((set) => ({
       set(()=>({loading : false}));
     } catch (error) {
       console.error("Error fetching remedies:", error);
+      toast.error("Error fetching remedies", {
+        className: "toastify-container",
+        bodyClassName: "toastify-container",
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+      });
     }
   },
   deleteRemedy: async (rid) => {
@@ -76,6 +97,16 @@ export const useRemedyStore = create((set) => ({
     } catch (error) {
       set(()=>({loading : false}));
       console.error("Error deleting remedies:", error);
+      toast.error("Error deleting remedies", {
+        className: "toastify-container",
+        bodyClassName: "toastify-container",
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+      });
     }
   },
   updateRemedy: async (rid, updatedRemedy) => {

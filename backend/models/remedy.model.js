@@ -6,9 +6,10 @@ const remedySchema = new mongoose.Schema(
     part: { type: String, required: true },
     ingredients: { type: [String], required: true }, // Optional
     expiry: { type: String, required: true },
-    forKids: { type: String, required: true },
     recipe: { type: [String], required: true },
     caution: { type: [String], required: false }, // Optional
+    dosage: { type: String, required: true },
+    forKids: { type: String, required: true },
   },
   { timestamps: true }
 );

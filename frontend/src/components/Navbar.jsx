@@ -3,15 +3,16 @@ import { GiHerbsBundle } from "react-icons/gi";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
+import { IoAddOutline } from "react-icons/io5";
 import { TiThMenu } from "react-icons/ti";
-import { MdLocalHospital } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import targetArea from "./targetArea";
 import { useRemedyStore } from "../store/remedy";
 
 function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { setFilter } = useRemedyStore();
 
   useEffect(() => {
@@ -38,7 +39,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`navbar navbar-expand-lg ${
+      className={`navbar ${
         isDarkMode ? "navbar-dark bg-dark" : "navbar-light bg-light"
       }`}
     >
@@ -80,7 +81,7 @@ function Navbar() {
             </select>
           </div>
 
-          {/* Right Section (Theme Toggle + Warning Icon) */}
+          {/* Right Section (Theme Toggle + Warning Icon + Add remedy button) */}
           <div className="col d-flex justify-content-end align-items-center">
             {/* Theme Toggle */}
             <button
@@ -112,9 +113,8 @@ function Navbar() {
             <Link
               className="btn btn-success px-3 py-2 me-2 d-none d-md-inline-block"
               to={"/add"}
-              aria-label="Add Remedy"
             >
-              <MdLocalHospital />
+              <IoAddOutline size={'1.3em'} />
             </Link>
 
             {/* Menu Toggle (Visible on Mobile) */}
@@ -122,8 +122,8 @@ function Navbar() {
               className="btn btn-success px-3 py-2 d-md-none"
               type="button"
               data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
+              data-bs-target="#remedyMenu"
+              aria-controls="remedyMenu"
             >
               <TiThMenu />
             </button>
@@ -135,9 +135,10 @@ function Navbar() {
       <div
         className="offcanvas offcanvas-end d-md-none"
         tabIndex={-1}
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
+        id="remedyMenu"
+        aria-labelledby="remedyMenuLabel"
       >
+        {/* canvas header */}
         <div
           className={`offcanvas-header justify-content-between ${
             isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
@@ -151,47 +152,70 @@ function Navbar() {
           >
             {isDarkMode ? <FaSun size={"1.5em"} /> : <FaMoon size={"1.5em"} />}
           </button>
-          <h5
-            className="offcanvas-title text-success"
-            id="offcanvasExampleLabel"
-          >
+          <h5 className="offcanvas-title text-success" id="remedyMenuLabel">
             Menu
           </h5>
           <IoIosCloseCircle
             color="red"
-            size={'2em'}
+            size={"2em"}
             className="m-0"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           />
         </div>
+
+        {/* canvas body */}
         <div
           className={`offcanvas-body ${
             isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
           }`}
         >
-          {/* Dropdown Filter */}
-          <select
-            className="form-select shadow-none mb-3"
-            id="filter"
-            required
-            onChange={(e) => {
-              setFilter(e.target.value);
-            }}
-          >
-            <option value="">All Remedies</option>
-            {targetArea.map((areas, index) => (
-              <option key={index} value={areas.area}>
-                {areas.area}
-              </option>
-            ))}
-          </select>
-          <div className="mx-auto row align-items-center mb-3 w-100">
-            <p className="col m-0">Have A Remedy?</p>
-            <Link className="col btn btn-success" to={"/add"}>
-              <MdLocalHospital /> Add now
-            </Link>
-          </div>
+          {location.pathname !== "/add" && (
+            <>
+              {/* Dropdown Filter */}
+              <select
+                className="form-select shadow-none mb-3"
+                id="filter"
+                required
+                onChange={(e) => {
+                  setFilter(e.target.value);
+                  // Close the offcanvas
+                  const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
+                    document.getElementById("remedyMenu")
+                  );
+                  if (closeRemedyMenu) closeRemedyMenu.hide();
+                }}
+              >
+                <option value="">All Remedies</option>
+                {targetArea.map((areas, index) => (
+                  <option key={index} value={areas.area}>
+                    {areas.area}
+                  </option>
+                ))}
+              </select>
+
+              {/* Add Remedy */}
+
+              <div className="mx-auto row align-items-center mb-3 w-100">
+                <p className="col m-0">Have A Remedy?</p>
+                <Link
+                  className="col btn btn-success"
+                  to={"/add"}
+                  onClick={() => {
+                    // Close the remedy menu
+                    const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
+                      document.getElementById("remedyMenu")
+                    );
+                    if (closeRemedyMenu) closeRemedyMenu.hide();
+                  }}
+                >
+                  <IoAddOutline size={'1.3em'} /> Add now
+                </Link>
+              </div>
+            </>
+          )}
+
+          {/* Caution */}
           <div className="btn btn-warning mx-4 p-2 row">
             <FaTriangleExclamation /> Caution
             <p>
