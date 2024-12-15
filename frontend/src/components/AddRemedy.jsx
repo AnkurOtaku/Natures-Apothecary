@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import "./CustomToastify.css";
 
 function AddRemedy() {
-  const [selectedPart, setSelectedPart] = useState(null);
+  const [selectedPart, setSelectedPart] = useState("");
 
   const { createRemedy, updateRemedy, loading } = useRemedyStore();
 
@@ -34,9 +34,9 @@ function AddRemedy() {
       document.getElementById("recipe").value = remedy.recipe.join("\n");
       document.getElementById("caution").value = remedy.caution.join("\n");
       document.getElementById("dosage").value = remedy.dosage;
-      document
-        .querySelectorAll("input[name='forKids']")
-        .forEach((input) => (input.checked = remedy.forKids));
+      document.querySelectorAll("input[name='forKids']").forEach((input) => {
+        input.checked = input.value === remedy.forKids; // Compare input value to remedy.forKids
+      });
     }
   }, []);
 
@@ -206,6 +206,7 @@ function AddRemedy() {
             className="form-select shadow-none"
             id="targetArea"
             required
+            value={selectedPart}
             onChange={(e) => {
               setSelectedPart(e.target.value);
             }}

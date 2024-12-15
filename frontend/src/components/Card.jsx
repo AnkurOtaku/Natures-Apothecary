@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MdDelete, MdEdit } from "react-icons/md";
+
+import { MdDelete, MdEdit, MdRestaurantMenu } from "react-icons/md";
+import { SiPaperlessngx } from "react-icons/si";
+import { ImWarning } from "react-icons/im";
+import { FaRepeat } from "react-icons/fa6";
+import { FcExpired } from "react-icons/fc";
+import { FaChild } from "react-icons/fa";
+
 import { useRemedyStore } from "../store/remedy";
 import { toast } from "react-toastify";
 import "./CustomToastify.css";
@@ -9,7 +16,7 @@ import defaultImage from "/defaul-remedy-image.jpg";
 
 function Card({ remedy, modalId }) {
   const location = useLocation();
-  const { deleteRemedy } = useRemedyStore();
+  const { darkTheme, deleteRemedy } = useRemedyStore();
   const [image, setImage] = useState(defaultImage);
 
   const handleDeleteRemedy = async (rid) => {
@@ -59,6 +66,9 @@ function Card({ remedy, modalId }) {
             onLoad={() => {
               setImage(findImage(remedy.part));
             }}
+            onError={() => {
+              setImage(defaultImage); // Set the image to the default image on error
+            }}
           />
           <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
           <div className="card-img-overlay">
@@ -76,51 +86,68 @@ function Card({ remedy, modalId }) {
                 aria-labelledby={`${modalId}Label`}
               >
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                  <div className="modal-content text-black">
+                  <div
+                    className={`modal-content ${
+                      darkTheme ? "text-light bg-dark" : "text-dark bg-light"
+                    }`}
+                  >
+                    {/* Header */}
                     <div className="modal-header">
                       <h1
                         className="modal-title fs-4 fw-semibold text-capitalize"
                         id={`${modalId}Label`}
                       >
-                        {remedy.name}
+                        {remedy.name}{" "}
+                        <span className="fs-6 text-grey text-info">
+                          / {remedy.part}
+                        </span>
                       </h1>
                       <button
                         type="button"
-                        className="btn-close"
+                        className={`btn-close ${darkTheme ? "bg-light" : ""}`}
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       />
                     </div>
+
+                    {/* Body */}
                     <div className="modal-body">
+                      {/* Ingredients */}
                       {remedy.ingredients[0].length > 0 && (
-                        <div className="card-text fw-semibold text-capitalize">
+                        <div className="card-text fw-semibold text-capitalize mb-2">
+                          <SiPaperlessngx size={"1.5em"} color="brown" />{" "}
                           Ingredients :{" "}
-                          <span className="fw-normal">
+                          <p className="fw-normal my-0">
                             {remedy.ingredients.join(", ")}
-                          </span>
+                          </p>
                         </div>
                       )}
-                      <div className="fw-semibold text-capitalize">
-                        Works For :{" "}
-                        <span className="fw-normal">{remedy.part}</span>
-                      </div>
-                      <div className="fw-semibold text-capitalize">
-                        Recipe :{" "}
+
+                      {/* Recipe */}
+                      <div className="fw-semibold text-capitalize mb-2">
+                        <MdRestaurantMenu size={"1.5em"} color="green" /> Recipe
+                        :{" "}
                         {remedy.recipe.map((step, index) => {
                           return (
-                            <p key={index}>
+                            <p key={index} className="my-0">
                               {index + 1} :{" "}
                               <span className="fw-normal">{step}</span>
                             </p>
                           );
                         })}
                       </div>
+
+                      {/* Caution */}
                       {remedy.caution[0].length > 0 && (
-                        <div className="fw-semibold text-capitalize">
+                        <div className="fw-semibold text-capitalize mb-2">
+                          <ImWarning
+                            size={"1.2em"}
+                            color={`${darkTheme ? "yellow" : "black"}`}
+                          />{" "}
                           Caution :{" "}
                           {remedy.caution.map((step, index) => {
                             return (
-                              <p key={index}>
+                              <p key={index} className="my-0">
                                 {index + 1} :{" "}
                                 <span className="fw-normal">{step}</span>
                               </p>
@@ -128,24 +155,23 @@ function Card({ remedy, modalId }) {
                           })}
                         </div>
                       )}
-                      <div className="fw-semibold text-capitalize">
-                        Dosage :{" "}
-                        <span className="fw-normal">
-                          {remedy.dosage ? remedy.dosage : "undefined"}
-                        </span>
-                      </div>
-                      <div className="fw-semibold text-capitalize">
-                        Expiry :{" "}
+
+                      {/* Expiry */}
+                      <div className="fw-semibold text-capitalize mb-2">
+                        <FcExpired size={"1.3em"} /> Expiry :{" "}
                         <span className="fw-normal">
                           {remedy.expiry == 99
                             ? "Never"
                             : `${remedy.expiry} days`}
                         </span>
                       </div>
+
+                      {/* Dosage */}
                       <div className="fw-semibold text-capitalize">
-                        {remedy.forKids == "yes"
-                          ? "Kids Friendly"
-                          : "Not recommended For kids"}
+                        <FaRepeat /> :{" "}
+                        <span className="fw-normal">
+                          {remedy.dosage ? remedy.dosage : "undefined"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -157,28 +183,44 @@ function Card({ remedy, modalId }) {
 
         {/* Edit and Delete Buttons */}
         {location.pathname == "/delete" ? (
-          <div
-            type="button"
-            className="text-danger p-2 position-absolute top-0 end-0"
-            data-bs-dismiss="offcanvasDark"
-            aria-label="Close"
-            onClick={() => {
-              handleDeleteRemedy(remedy._id);
-            }}
-          >
-            <MdDelete size={"1.3em"} />
-          </div>
+          <>
+            <div
+              type="button"
+              className="text-danger p-2 position-absolute top-0 end-0"
+              data-bs-dismiss="offcanvasDark"
+              aria-label="Close"
+              onClick={() => {
+                handleDeleteRemedy(remedy._id);
+              }}
+            >
+              <MdDelete size={"1.3em"} />
+            </div>
+            {remedy.forKids == "yes" && (
+              <FaChild
+                size={"2.2em"}
+                className="text-success p-2 position-absolute bottom-0 end-0"
+              />
+            )}
+          </>
         ) : (
-          <Link
-            type="button"
-            className="text-info p-2 position-absolute top-0 end-0"
-            data-bs-dismiss="offcanvasDark"
-            aria-label="Update"
-            to="/update"
-            state={{ remedy }}
-          >
-            <MdEdit size={"1.3em"} />
-          </Link>
+          <>
+            <Link
+              type="button"
+              className="text-info p-2 position-absolute top-0 end-0"
+              data-bs-dismiss="offcanvasDark"
+              aria-label="Update"
+              to="/update"
+              state={{ remedy }}
+            >
+              <MdEdit size={"1.3em"} />
+            </Link>
+            {remedy.forKids == "yes" && (
+              <FaChild
+                size={"2.2em"}
+                className="text-success p-2 position-absolute bottom-0 end-0"
+              />
+            )}
+          </>
         )}
       </div>
     </div>

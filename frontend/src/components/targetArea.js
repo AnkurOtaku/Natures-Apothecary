@@ -10,6 +10,11 @@ const targetArea = [
       "https://plus.unsplash.com/premium_photo-1674841253670-1c84f52344c1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
+    area: "Head",
+    image:
+      "https://img.freepik.com/premium-photo/man-with-head-injury-his-forehead_1309173-59623.jpg",
+  },
+  {
     area: "Eyes",
     image:
       "https://images.unsplash.com/photo-1534627425233-f7d6335ca734?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -37,7 +42,7 @@ const targetArea = [
   {
     area: "Gums",
     image:
-      "https://cdn.smilespecialistssuite.com.au/wp-content/uploads/2024/02/how-to-identify-unhealthy-gums.jpg",
+      "https://images.squarespace-cdn.com/content/5fb7f81c2252132f9d6fa150/41e10461-50ba-4fae-87f7-dd4a3c8e15aa/Healthy+Gums.jpg?format=1500w&content-type=image%2Fjpeg",
   },
   {
     area: "Heart",

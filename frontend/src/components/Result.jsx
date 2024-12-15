@@ -42,9 +42,9 @@ function Result() {
               <Link
                 className="btn btn-success px-3 py-2 my-2 mx-auto d-block"
                 to={"/add"}
-                style={{width:'fit-content'}}
+                style={{ width: "fit-content" }}
               >
-                <IoAddOutline size={'2em'} /> Add Your Remedy
+                <IoAddOutline size={"2em"} /> Add Your Remedy
               </Link>
             </div>
           )}

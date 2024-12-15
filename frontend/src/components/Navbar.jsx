@@ -10,10 +10,9 @@ import targetArea from "./targetArea";
 import { useRemedyStore } from "../store/remedy";
 
 function Navbar() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { setFilter } = useRemedyStore();
+  const { darkTheme, setDarkTheme, setFilter, filter } = useRemedyStore();
 
   useEffect(() => {
     // Initialize all popovers after component mounts
@@ -26,11 +25,11 @@ function Navbar() {
   }, []);
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle("bg-dark", !isDarkMode);
-    document.body.classList.toggle("text-light", !isDarkMode);
-    document.body.classList.toggle("bg-light", isDarkMode);
-    document.body.classList.toggle("text-dark", isDarkMode);
+    setDarkTheme(!darkTheme);
+    document.body.classList.toggle("bg-dark", !darkTheme);
+    document.body.classList.toggle("text-light", !darkTheme);
+    document.body.classList.toggle("bg-light", darkTheme);
+    document.body.classList.toggle("text-dark", darkTheme);
   };
 
   function handleDbClick() {
@@ -40,7 +39,7 @@ function Navbar() {
   return (
     <nav
       className={`navbar ${
-        isDarkMode ? "navbar-dark bg-dark" : "navbar-light bg-light"
+        darkTheme ? "navbar-dark bg-dark" : "navbar-light bg-light"
       }`}
     >
       <div className="container-lg">
@@ -49,15 +48,18 @@ function Navbar() {
           <div className="col text-start">
             <Link
               className={`navbar-brand ${
-                isDarkMode ? "text-light" : "text-dark"
+                darkTheme ? "text-light" : "text-dark"
               }`}
-              to={"/"}
               onDoubleClick={handleDbClick}
+              onClick={() => {
+                setFilter("");
+              }}
+              to={"/"}
             >
               Natural Remedies{" "}
               <GiHerbsBundle
                 size={"2em"}
-                color={isDarkMode ? "lightgreen" : "green"}
+                color={darkTheme ? "lightgreen" : "green"}
               />
             </Link>
           </div>
@@ -68,6 +70,7 @@ function Navbar() {
               className="form-select shadow-none"
               id="canvasFilter"
               required
+              value={filter}
               onChange={(e) => {
                 setFilter(e.target.value);
               }}
@@ -86,15 +89,11 @@ function Navbar() {
             {/* Theme Toggle */}
             <button
               className={`btn btn-outline-${
-                isDarkMode ? "light" : "dark"
+                darkTheme ? "light" : "dark"
               } me-2 d-none d-sm-inline-block`}
               onClick={toggleTheme}
             >
-              {isDarkMode ? (
-                <FaSun size={"1.5em"} />
-              ) : (
-                <FaMoon size={"1.5em"} />
-              )}
+              {darkTheme ? <FaSun size={"1.5em"} /> : <FaMoon size={"1.5em"} />}
             </button>
 
             {/* Warning Popover (Hidden on Mobile) */}
@@ -114,7 +113,7 @@ function Navbar() {
               className="btn btn-success px-3 py-2 me-2 d-none d-md-inline-block"
               to={"/add"}
             >
-              <IoAddOutline size={'1.3em'} />
+              <IoAddOutline size={"1.3em"} />
             </Link>
 
             {/* Menu Toggle (Visible on Mobile) */}
@@ -141,16 +140,16 @@ function Navbar() {
         {/* canvas header */}
         <div
           className={`offcanvas-header justify-content-between ${
-            isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
+            darkTheme ? "bg-dark text-light" : "bg-light text-dark"
           }`}
         >
           <button
             className={`btn btn-outline-${
-              isDarkMode ? "light" : "dark"
+              darkTheme ? "light" : "dark"
             } me-2 d-sm-none`}
             onClick={toggleTheme}
           >
-            {isDarkMode ? <FaSun size={"1.5em"} /> : <FaMoon size={"1.5em"} />}
+            {darkTheme ? <FaSun size={"1.5em"} /> : <FaMoon size={"1.5em"} />}
           </button>
           <h5 className="offcanvas-title text-success" id="remedyMenuLabel">
             Menu
@@ -167,7 +166,7 @@ function Navbar() {
         {/* canvas body */}
         <div
           className={`offcanvas-body ${
-            isDarkMode ? "bg-dark text-light" : "bg-light text-dark"
+            darkTheme ? "bg-dark text-light" : "bg-light text-dark"
           }`}
         >
           {location.pathname !== "/add" && (
@@ -209,7 +208,7 @@ function Navbar() {
                     if (closeRemedyMenu) closeRemedyMenu.hide();
                   }}
                 >
-                  <IoAddOutline size={'1.3em'} /> Add now
+                  <IoAddOutline size={"1.3em"} /> Add now
                 </Link>
               </div>
             </>
