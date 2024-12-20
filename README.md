@@ -11,8 +11,6 @@ A full-stack web application that allows users to manage and view natural remedi
 - [Installation](#installation)
 - [Usage](#usage)
 - [Scripts](#scripts)
-- [Folder Structure](#folder-structure)
-- [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -82,7 +80,7 @@ npm run dev
 - npm run build: Builds the frontend for production
 - npm start: Runs the production server.
 
-## **Contriuting**
+## **Contributing**
 1. Fork the repository.
 2. Create a feature branch:
  ```bash
