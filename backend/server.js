@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import remedyRoutes from "./routes/remedy.route.js";
+import poisonRoutes from "./routes/poison.route.js";
+import boosterRoutes from "./routes/booster.route.js";
 import path from "path";
 
 dotenv.config();
@@ -15,6 +17,8 @@ app.use(express.json()); // Accept JSON data in req.body
 
 // API routes
 app.use("/api/remedies", remedyRoutes);
+app.use("/api/poisons", poisonRoutes);
+app.use("/api/boosters", boosterRoutes);
 console.log("Environment:", process.env.NODE_ENV);
 
 // Serve static files in production

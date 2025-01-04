@@ -3,26 +3,23 @@ import { Link, useLocation } from "react-router-dom";
 
 import { MdDelete, MdEdit, MdRestaurantMenu } from "react-icons/md";
 import { SiPaperlessngx } from "react-icons/si";
-import { ImWarning } from "react-icons/im";
-import { FaRepeat } from "react-icons/fa6";
-import { FcExpired } from "react-icons/fc";
 import { FaChild } from "react-icons/fa";
 
-import { useRemedyStore } from "../store/remedy";
+import { useRemedyStore } from "../store/remedy.js";
 import { toast } from "react-toastify";
 import "./CustomToastify.css";
 import targetArea from "./targetArea.js";
 import defaultImage from "/defaul-remedy-image.jpg";
 
-function Card({ remedy, modalId }) {
+function Card({ poison, modalId }) {
   const location = useLocation();
-  const { darkTheme, deleteRemedy } = useRemedyStore();
+  const { darkTheme, deletePoison } = useRemedyStore();
   const [image, setImage] = useState(defaultImage);
 
-  const handleDeleteRemedy = async (rid) => {
-    const { status, message } = await deleteRemedy(rid);
+  const handleDeletePoison = async (rid) => {
+    const { status, message } = await deletePoison(rid);
     if (status) {
-      toast.success("Remedy Deleted Successfully", {
+      toast.success("Poison Deleted Successfully", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
         position: "bottom-center",
@@ -61,10 +58,10 @@ function Card({ remedy, modalId }) {
           <img
             src={image}
             className="card-img-top img-fluid rounded-3"
-            alt={remedy.part || "remedy"}
+            alt={poison.part || "poison"}
             style={{ objectFit: "cover", height: "200px" }}
             onLoad={() => {
-              setImage(findImage(remedy.part));
+              setImage(findImage(poison.part));
             }}
             onError={() => {
               setImage(defaultImage); // Set the image to the default image on error
@@ -73,12 +70,12 @@ function Card({ remedy, modalId }) {
           <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
           <div className="card-img-overlay">
             <div className="card-body p-0">
-              <h5 className="card-title text-capitalize">{remedy.name}</h5>
-              {remedy.ingredients && (
-                <p className="card-text">{remedy.ingredients.join(", ")}</p>
+              <h5 className="card-title text-capitalize">{poison.name}</h5>
+              {poison.ingredients && (
+                <p className="card-text">{poison.ingredients.join(", ")}</p>
               )}
 
-              {/* Unique modal for each remedy */}
+              {/* Unique modal for each poison */}
               <div
                 className="modal fade pe-0"
                 id={modalId}
@@ -97,9 +94,9 @@ function Card({ remedy, modalId }) {
                         className="modal-title fs-4 fw-semibold text-capitalize"
                         id={`${modalId}Label`}
                       >
-                        {remedy.name}{" "}
+                        {poison.name}{" "}
                         <span className="fs-6 text-grey text-info">
-                          / {remedy.part}
+                          / {poison.part}
                         </span>
                       </h1>
                       <button
@@ -113,21 +110,21 @@ function Card({ remedy, modalId }) {
                     {/* Body */}
                     <div className="modal-body">
                       {/* Ingredients */}
-                      {remedy.ingredients[0].length > 0 && (
+                      {poison.ingredients[0].length > 0 && (
                         <div className="card-text fw-semibold text-capitalize mb-2">
                           <SiPaperlessngx size={"1.5em"} color="brown" />{" "}
                           Ingredients :{" "}
                           <p className="fw-normal my-0">
-                            {remedy.ingredients.join(", ")}
+                            {poison.ingredients.join(", ")}
                           </p>
                         </div>
                       )}
 
-                      {/* Recipe */}
+                      {/* Description */}
                       <div className="fw-semibold text-capitalize mb-2">
-                        <MdRestaurantMenu size={"1.5em"} color="green" /> Recipe
+                        <MdRestaurantMenu size={"1.5em"} color="green" /> Description
                         :{" "}
-                        {remedy.recipe.map((step, index) => {
+                        {poison.description.map((step, index) => {
                           return (
                             <p key={index} className="my-0">
                               {index + 1} :{" "}
@@ -135,43 +132,6 @@ function Card({ remedy, modalId }) {
                             </p>
                           );
                         })}
-                      </div>
-
-                      {/* Caution */}
-                      {remedy.caution[0].length > 0 && (
-                        <div className="fw-semibold text-capitalize mb-2">
-                          <ImWarning
-                            size={"1.2em"}
-                            color={`${darkTheme ? "yellow" : "black"}`}
-                          />{" "}
-                          Caution :{" "}
-                          {remedy.caution.map((step, index) => {
-                            return (
-                              <p key={index} className="my-0">
-                                {index + 1} :{" "}
-                                <span className="fw-normal">{step}</span>
-                              </p>
-                            );
-                          })}
-                        </div>
-                      )}
-
-                      {/* Expiry */}
-                      <div className="fw-semibold text-capitalize mb-2">
-                        <FcExpired size={"1.3em"} /> Expiry :{" "}
-                        <span className="fw-normal">
-                          {remedy.expiry == 99
-                            ? "Never"
-                            : `${remedy.expiry} days`}
-                        </span>
-                      </div>
-
-                      {/* Dosage */}
-                      <div className="fw-semibold text-capitalize">
-                        <FaRepeat /> :{" "}
-                        <span className="fw-normal">
-                          {remedy.dosage ? remedy.dosage : "undefined"}
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -182,7 +142,7 @@ function Card({ remedy, modalId }) {
         </div>
 
         {/* Edit and Delete Buttons */}
-        {location.pathname == "/remedy/delete" ? (
+        {location.pathname == "/poison/delete" ? (
           <>
             <div
               type="button"
@@ -190,17 +150,11 @@ function Card({ remedy, modalId }) {
               data-bs-dismiss="offcanvasDark"
               aria-label="Close"
               onClick={() => {
-                handleDeleteRemedy(remedy._id);
+                handleDeletePoison(poison._id);
               }}
             >
               <MdDelete size={"1.3em"} />
             </div>
-            {remedy.forKids == "yes" && (
-              <FaChild
-                size={"2.2em"}
-                className="text-success p-2 position-absolute bottom-0 end-0"
-              />
-            )}
           </>
         ) : (
           <>
@@ -209,17 +163,11 @@ function Card({ remedy, modalId }) {
               className="text-info p-2 position-absolute top-0 end-0"
               data-bs-dismiss="offcanvasDark"
               aria-label="Update"
-              to="/update"
-              state={{ remedy }}
+              to="/poison/update"
+              state={{ poison }}
             >
               <MdEdit size={"1.3em"} />
             </Link>
-            {remedy.forKids == "yes" && (
-              <FaChild
-                size={"2.2em"}
-                className="text-success p-2 position-absolute bottom-0 end-0"
-              />
-            )}
           </>
         )}
       </div>

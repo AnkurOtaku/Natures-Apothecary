@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const remedySchema = new mongoose.Schema(
+const boosterSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     part: { type: String, required: true },
@@ -14,6 +14,6 @@ const remedySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Remedy = mongoose.model("Remedy", remedySchema);
+const Booster = mongoose.model("Booster", boosterSchema);
 
-export default Remedy;
+export default Booster;
