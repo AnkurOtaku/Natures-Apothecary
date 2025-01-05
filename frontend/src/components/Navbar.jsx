@@ -36,6 +36,7 @@ function Navbar() {
   };
 
   function handleDbClick() {
+    console.log(location.pathname);
     navigate(`${location.pathname}/delete`);
   }
 
@@ -88,7 +89,7 @@ function Navbar() {
               </select>
             </div>
 
-            {/* Right Section (Theme Toggle + Warning Icon + Add remedy button) */}
+            {/* Right Section (Theme Toggle + Warning Icon) */}
             <div className="col d-flex justify-content-end align-items-center">
               {/* Theme Toggle */}
               <button
@@ -115,14 +116,6 @@ function Navbar() {
               >
                 <FaTriangleExclamation />
               </span>
-
-              {/* Add Remedy Toggle */}
-              <Link
-                className="btn btn-success px-3 py-2 me-2 d-none d-md-inline-block"
-                to={"/add"}
-              >
-                <IoAddOutline size={"1.3em"} />
-              </Link>
 
               {/* Menu Toggle (Visible on Mobile) */}
               <button
@@ -177,7 +170,7 @@ function Navbar() {
               darkTheme ? "bg-dark text-light" : "bg-light text-dark"
             }`}
           >
-            {location.pathname !== "/add" && (
+            {!location.pathname.includes("/add") && (
               <>
                 {/* Dropdown Filter */}
                 <select
@@ -202,22 +195,55 @@ function Navbar() {
                 </select>
 
                 {/* Add Remedy */}
-
-                <div className="mx-auto row align-items-center mb-3 w-100">
-                  <p className="col m-0">Have A Remedy?</p>
-                  <Link
-                    className="col btn btn-success"
-                    to={"/add"}
-                    onClick={() => {
-                      // Close the remedy menu
-                      const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
-                        document.getElementById("remedyMenu")
-                      );
-                      if (closeRemedyMenu) closeRemedyMenu.hide();
-                    }}
-                  >
-                    <IoAddOutline size={"1.3em"} /> Add now
-                  </Link>
+                <div className="d-sm-none mx-auto row align-items-center mb-3 w-100">
+                  <p className="text-center">Have Something To Share?</p>
+                  <ul className="mx-auto row " style={{ left: "-100%" }}>
+                    <li className="col btn border border-end-0 border-success">
+                      <Link
+                        className="text-success text-decoration-none"
+                        to="/remedy/add"
+                        onClick={() => {
+                          // Close the menu
+                          const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
+                            document.getElementById("remedyMenu")
+                          );
+                          if (closeRemedyMenu) closeRemedyMenu.hide();
+                        }}
+                      >
+                        Remedy
+                      </Link>
+                    </li>
+                    <li className="col btn border border-end-0 border-start-0 border-info">
+                      <Link
+                        className="text-info text-decoration-none"
+                        to="/booster/add"
+                        onClick={() => {
+                          // Close the menu
+                          const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
+                            document.getElementById("remedyMenu")
+                          );
+                          if (closeRemedyMenu) closeRemedyMenu.hide();
+                        }}
+                      >
+                        Booster
+                      </Link>
+                    </li>
+                    <li className="col btn border border-start-0 border-danger">
+                      <Link
+                        className="text-danger text-decoration-none"
+                        to="/poison/add"
+                        onClick={() => {
+                          // Close the menu
+                          const closeRemedyMenu = bootstrap.Offcanvas.getInstance(
+                            document.getElementById("remedyMenu")
+                          );
+                          if (closeRemedyMenu) closeRemedyMenu.hide();
+                        }}
+                      >
+                        Poison
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </>
             )}
@@ -240,7 +266,7 @@ function Navbar() {
           darkTheme ? "navbar-dark bg-dark" : "navbar-light bg-light"
         } shadow-lg`}
       >
-        <div className="container-fluid d-flex justify-content-around">
+        <div className="container-md d-flex justify-content-around">
           {/* Remedies */}
           <Link
             to="/remedy"
@@ -302,7 +328,7 @@ function Navbar() {
           </Link>
 
           {/* Add Button */}
-          <div className="btn-group dropup">
+          <div className="d-none d-sm-block btn-group dropup-center dropup">
             <button
               className="btn btn-success dropdown-toggle d-flex flex-column align-items-center"
               type="button"
@@ -316,7 +342,8 @@ function Navbar() {
             <ul
               className={`dropdown-menu ${
                 darkTheme ? "dropdown-menu-dark" : ""
-              }`}
+              } mx-auto`}
+              style={{ left: "-100%" }}
               aria-labelledby="dropdownMenuButton"
             >
               <li>

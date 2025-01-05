@@ -131,7 +131,7 @@ function AddPoison() {
         {/* Name */}
         <div className="col-md-6">
           <label htmlFor="name" className="form-label">
-            Helps In
+            Causes
           </label>
           <input
             type="text"

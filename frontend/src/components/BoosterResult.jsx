@@ -16,10 +16,10 @@ function Result() {
 
   return (
     <>
-      <h1 className="text-center mt-4">Natural Cure Boosters</h1>
+      <h1 className="text-center mt-4">Natural Boosters</h1>
       <div className="text-center mb-4 fs-5">
         <span style={{ color: "#fa8128" }}>Slow to act,</span>
-        <span className="text-success"> Sure to heal.</span>
+        <span className="text-success"> Sure to boost.</span>
       </div>
       {loading && <Loading />}
       {boosters.length > 0 ? (

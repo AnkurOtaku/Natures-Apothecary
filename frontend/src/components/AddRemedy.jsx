@@ -318,6 +318,7 @@ function AddRemedy() {
             type="text"
             className="form-control shadow-none"
             id="dosage"
+            placeholder={`Once a week`}
             required
             disabled={loading}
           />
