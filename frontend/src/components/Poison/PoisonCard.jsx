@@ -3,15 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 
 import { MdDelete, MdEdit, MdRestaurantMenu } from "react-icons/md";
 import { SiPaperlessngx } from "react-icons/si";
-import { FaChild } from "react-icons/fa";
 
-import { useRemedyStore } from "../store/remedy.js";
+import { useRemedyStore } from "../../store/remedy.js";
 import { toast } from "react-toastify";
-import "./CustomToastify.css";
-import targetArea from "./targetArea.js";
+import "../CustomToastify.css";
+import targetArea from "../targetArea.js";
 import defaultImage from "/defaul-remedy-image.jpg";
 
-function Card({ poison, modalId }) {
+function PoisonCard({ poison, modalId }) {
   const location = useLocation();
   const { darkTheme, deletePoison } = useRemedyStore();
   const [image, setImage] = useState(defaultImage);
@@ -175,4 +174,4 @@ function Card({ poison, modalId }) {
   );
 }
 
-export default Card;
+export default PoisonCard;

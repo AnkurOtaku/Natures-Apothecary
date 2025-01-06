@@ -35,11 +35,6 @@ function Navbar() {
     document.body.classList.toggle("text-dark", darkTheme);
   };
 
-  function handleDbClick() {
-    console.log(location.pathname);
-    navigate(`${location.pathname}/delete`);
-  }
-
   return (
     <>
       <nav
@@ -55,13 +50,12 @@ function Navbar() {
                 className={`navbar-brand ${
                   darkTheme ? "text-light" : "text-dark"
                 }`}
-                onDoubleClick={handleDbClick}
                 onClick={() => {
                   setFilter("");
                 }}
                 to={"/remedy"}
               >
-                Natural Remedies{" "}
+                Nature's Apothecary {" "}
                 <GiHerbsBundle
                   size={"2em"}
                   color={darkTheme ? "lightgreen" : "green"}
@@ -80,7 +74,7 @@ function Navbar() {
                   setFilter(e.target.value);
                 }}
               >
-                <option value="">All Remedies</option>
+                <option value="">All Parts</option>
                 {targetArea.map((areas, index) => (
                   <option key={index} value={areas.area}>
                     {areas.area}
@@ -186,7 +180,7 @@ function Navbar() {
                     if (closeRemedyMenu) closeRemedyMenu.hide();
                   }}
                 >
-                  <option value="">All Remedies</option>
+                  <option value="">All Parts</option>
                   {targetArea.map((areas, index) => (
                     <option key={index} value={areas.area}>
                       {areas.area}
@@ -270,6 +264,7 @@ function Navbar() {
           {/* Remedies */}
           <Link
             to="/remedy"
+            onDoubleClick={()=>{navigate('/remedy/delete')}}
             className={`btn d-flex flex-column align-items-center ${
               location.pathname.includes("remedy")
                 ? "active text-success"
@@ -290,6 +285,7 @@ function Navbar() {
           {/* Boosters */}
           <Link
             to="/booster"
+            onDoubleClick={()=>{navigate('/booster/delete')}}
             className={`btn d-flex flex-column align-items-center ${
               location.pathname.includes("booster")
                 ? "active text-info"
@@ -310,6 +306,7 @@ function Navbar() {
           {/* Poisons */}
           <Link
             to="/poison"
+            onDoubleClick={()=>{navigate('/poison/delete')}}
             className={`btn d-flex flex-column align-items-center ${
               location.pathname.includes("poison")
                 ? "active text-danger"

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useRemedyStore } from "../store/remedy";
+import { useRemedyStore } from "../../store/remedy.js";
 import BoosterCard from "./BoosterCard";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import { Link } from "react-router-dom";
 import { IoAddOutline } from "react-icons/io5";
 

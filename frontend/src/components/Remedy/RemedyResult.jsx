@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useRemedyStore } from "../store/remedy";
-import Card from "./Card";
-import Loading from "./Loading";
+import { useRemedyStore } from "../../store/remedy";
+import RemedyCard from "./RemedyCard";
+import Loading from "../Loading";
 import { Link } from "react-router-dom";
 import { IoAddOutline } from "react-icons/io5";
 
-function Result() {
+function RemedyResult() {
   const { fetchRemedies, remedies, filter, loading } = useRemedyStore();
   let noFilteredRemedy = true;
 
@@ -34,7 +34,7 @@ function Result() {
             // Create a unique ID for each modal using the remedy's `_id`
             const remedyId = remedy._id?.$oid || remedy._id; // Use $oid if it exists, else fallback to _id
             const modalId = `modal-${remedyId}`; // Unique modal ID
-            return <Card key={remedyId} remedy={remedy} modalId={modalId} />;
+            return <RemedyCard key={remedyId} remedy={remedy} modalId={modalId} />;
           })}
           {filter && noFilteredRemedy && (
             <div className="fs-5 text-center">
@@ -60,4 +60,4 @@ function Result() {
   );
 }
 
-export default Result;
+export default RemedyResult;

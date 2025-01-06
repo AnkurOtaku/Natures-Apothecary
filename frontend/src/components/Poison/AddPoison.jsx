@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { IoIosCreate } from "react-icons/io";
-import { BsFillInfoCircleFill } from "react-icons/bs";
-import targetArea from "./targetArea.js";
-import { useRemedyStore } from "../store/remedy.js";
+import targetArea from "../targetArea.js";
+import { useRemedyStore } from "../../store/remedy.js";
 import { toast } from "react-toastify";
-import "./CustomToastify.css";
+import "../CustomToastify.css";
 
 function AddPoison() {
   const [selectedPart, setSelectedPart] = useState("");

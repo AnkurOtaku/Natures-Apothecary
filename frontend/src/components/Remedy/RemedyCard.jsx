@@ -8,21 +8,22 @@ import { FaRepeat } from "react-icons/fa6";
 import { FcExpired } from "react-icons/fc";
 import { FaChild } from "react-icons/fa";
 
-import { useRemedyStore } from "../store/remedy.js";
+import { useRemedyStore } from "../../store/remedy";
 import { toast } from "react-toastify";
-import "./CustomToastify.css";
-import targetArea from "./targetArea.js";
+import "../CustomToastify.css";
+import "../Card.css";
+import targetArea from "../targetArea.js";
 import defaultImage from "/defaul-remedy-image.jpg";
 
-function Card({ booster, modalId }) {
+function RemedyCard({ remedy, modalId }) {
   const location = useLocation();
-  const { darkTheme, deleteBooster } = useRemedyStore();
+  const { darkTheme, deleteRemedy } = useRemedyStore();
   const [image, setImage] = useState(defaultImage);
 
-  const handleDeleteBooster = async (rid) => {
-    const { status, message } = await deleteBooster(rid);
+  const handleDeleteRemedy = async (rid) => {
+    const { status, message } = await deleteRemedy(rid);
     if (status) {
-      toast.success("Booster Deleted Successfully", {
+      toast.success("Remedy Deleted Successfully", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
         position: "bottom-center",
@@ -61,10 +62,10 @@ function Card({ booster, modalId }) {
           <img
             src={image}
             className="card-img-top img-fluid rounded-3"
-            alt={booster.part || "booster"}
+            alt={remedy.part || "remedy"}
             style={{ objectFit: "cover", height: "200px" }}
             onLoad={() => {
-              setImage(findImage(booster.part));
+              setImage(findImage(remedy.part));
             }}
             onError={() => {
               setImage(defaultImage); // Set the image to the default image on error
@@ -73,12 +74,12 @@ function Card({ booster, modalId }) {
           <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75 rounded"></div>
           <div className="card-img-overlay">
             <div className="card-body p-0">
-              <h5 className="card-title text-capitalize">{booster.name}</h5>
-              {booster.ingredients && (
-                <p className="card-text">{booster.ingredients.join(", ")}</p>
+              <h5 className="card-title text-capitalize">{remedy.name}</h5>
+              {remedy.ingredients && (
+                <p className="card-text">{remedy.ingredients.join(", ")}</p>
               )}
 
-              {/* Unique modal for each booster */}
+              {/* Unique modal for each remedy */}
               <div
                 className="modal fade pe-0"
                 id={modalId}
@@ -97,9 +98,9 @@ function Card({ booster, modalId }) {
                         className="modal-title fs-4 fw-semibold text-capitalize"
                         id={`${modalId}Label`}
                       >
-                        {booster.name}{" "}
+                        {remedy.name}{" "}
                         <span className="fs-6 text-grey text-info">
-                          / {booster.part}
+                          / {remedy.part}
                         </span>
                       </h1>
                       <button
@@ -113,12 +114,12 @@ function Card({ booster, modalId }) {
                     {/* Body */}
                     <div className="modal-body">
                       {/* Ingredients */}
-                      {booster.ingredients[0].length > 0 && (
+                      {remedy.ingredients[0].length > 0 && (
                         <div className="card-text fw-semibold text-capitalize mb-2">
                           <SiPaperlessngx size={"1.5em"} color="brown" />{" "}
                           Ingredients :{" "}
                           <p className="fw-normal my-0">
-                            {booster.ingredients.join(", ")}
+                            {remedy.ingredients.join(", ")}
                           </p>
                         </div>
                       )}
@@ -127,7 +128,7 @@ function Card({ booster, modalId }) {
                       <div className="fw-semibold text-capitalize mb-2">
                         <MdRestaurantMenu size={"1.5em"} color="green" /> Recipe
                         :{" "}
-                        {booster.recipe.map((step, index) => {
+                        {remedy.recipe.map((step, index) => {
                           return (
                             <p key={index} className="my-0">
                               {index + 1} :{" "}
@@ -138,14 +139,14 @@ function Card({ booster, modalId }) {
                       </div>
 
                       {/* Caution */}
-                      {booster.caution[0].length > 0 && (
+                      {remedy.caution[0].length > 0 && (
                         <div className="fw-semibold text-capitalize mb-2">
                           <ImWarning
                             size={"1.2em"}
                             color={`${darkTheme ? "yellow" : "black"}`}
                           />{" "}
                           Caution :{" "}
-                          {booster.caution.map((step, index) => {
+                          {remedy.caution.map((step, index) => {
                             return (
                               <p key={index} className="my-0">
                                 {index + 1} :{" "}
@@ -160,9 +161,9 @@ function Card({ booster, modalId }) {
                       <div className="fw-semibold text-capitalize mb-2">
                         <FcExpired size={"1.3em"} /> Expiry :{" "}
                         <span className="fw-normal">
-                          {booster.expiry == 99
+                          {remedy.expiry == 99
                             ? "Never"
-                            : `${booster.expiry} days`}
+                            : `${remedy.expiry} days`}
                         </span>
                       </div>
 
@@ -170,7 +171,7 @@ function Card({ booster, modalId }) {
                       <div className="fw-semibold text-capitalize">
                         <FaRepeat /> :{" "}
                         <span className="fw-normal">
-                          {booster.dosage ? booster.dosage : "undefined"}
+                          {remedy.dosage ? remedy.dosage : "undefined"}
                         </span>
                       </div>
                     </div>
@@ -182,7 +183,7 @@ function Card({ booster, modalId }) {
         </div>
 
         {/* Edit and Delete Buttons */}
-        {location.pathname == "/booster/delete" ? (
+        {location.pathname == "/remedy/delete" ? (
           <>
             <div
               type="button"
@@ -190,12 +191,12 @@ function Card({ booster, modalId }) {
               data-bs-dismiss="offcanvasDark"
               aria-label="Close"
               onClick={() => {
-                handleDeleteBooster(booster._id);
+                handleDeleteRemedy(remedy._id);
               }}
             >
               <MdDelete size={"1.3em"} />
             </div>
-            {booster.forKids == "yes" && (
+            {remedy.forKids == "yes" && (
               <FaChild
                 size={"2.2em"}
                 className="text-success p-2 position-absolute bottom-0 end-0"
@@ -209,16 +210,36 @@ function Card({ booster, modalId }) {
               className="text-info p-2 position-absolute top-0 end-0"
               data-bs-dismiss="offcanvasDark"
               aria-label="Update"
-              to="/booster/update"
-              state={{ booster }}
+              to="/update"
+              state={{ remedy }}
             >
               <MdEdit size={"1.3em"} />
             </Link>
-            {booster.forKids == "yes" && (
-              <FaChild
-                size={"2.2em"}
-                className="text-success p-2 position-absolute bottom-0 end-0"
-              />
+            {remedy.forKids == "yes" && (
+              <>
+                <div
+                  className="position-absolute bottom-0 end-0 d-flex justify-content-center align-items-center z-1"
+                  style={{ borderRadius: "20%" }}
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#kids-${modalId}`}
+                  aria-expanded="false"
+                  aria-controls={`kids-${modalId}`}
+                >
+                  <FaChild
+                    size="2.2em"
+                    className="text-success p-2 rounded-circle"
+                  />
+                </div>
+
+                <div className="position-absolute bottom-0 end-0 collapse-horizontal collapse" id={`kids-${modalId}`}>
+                  <div
+                    className="card card-body text-success"
+                    style={{ width: "max-content", padding: "6px" }}
+                  >
+                    Kids Friendly &nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
+              </>
             )}
           </>
         )}
@@ -227,4 +248,4 @@ function Card({ booster, modalId }) {
   );
 }
 
-export default Card;
+export default RemedyCard;

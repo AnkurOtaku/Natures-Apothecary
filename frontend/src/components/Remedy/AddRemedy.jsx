@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { IoIosCreate } from "react-icons/io";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import targetArea from "./targetArea.js";
-import { useRemedyStore } from "../store/remedy.js";
+import targetArea from "../targetArea.js";
+import { useRemedyStore } from "../../store/remedy.js";
 import { toast } from "react-toastify";
-import "./CustomToastify.css";
+import "../CustomToastify.css";
 
-function AddBooster() {
+function AddRemedy() {
   const [selectedPart, setSelectedPart] = useState("");
+  // const [type, setType] = useState('');
 
-  const { createBooster, updateBooster, loading } = useRemedyStore();
+  const { createRemedy, updateRemedy, loading } = useRemedyStore();
 
   let navigate = useNavigate();
   const location = useLocation();
@@ -25,20 +26,30 @@ function AddBooster() {
     });
 
     if (location.state) {
-      const booster = location.state?.booster;
-      document.getElementById("name").value = booster.name;
-      setSelectedPart(booster.part);
+      const remedy = location.state?.remedy;
+      document.getElementById("name").value = remedy.name;
+      setSelectedPart(remedy.part);
       document.getElementById("ingredients").value =
-        booster.ingredients.join(", ");
-      document.getElementById("expiry").value = booster.expiry;
-      document.getElementById("recipe").value = booster.recipe.join("\n");
-      document.getElementById("caution").value = booster.caution.join("\n");
-      document.getElementById("dosage").value = booster.dosage;
+        remedy.ingredients.join(", ");
+      document.getElementById("expiry").value = remedy.expiry;
+      document.getElementById("recipe").value = remedy.recipe.join("\n");
+      document.getElementById("caution").value = remedy.caution.join("\n");
+      document.getElementById("dosage").value = remedy.dosage;
       document.querySelectorAll("input[name='forKids']").forEach((input) => {
-        input.checked = input.value === booster.forKids; // Compare input value to booster.forKids
+        input.checked = input.value === remedy.forKids; // Compare input value to remedy.forKids
       });
     }
 
+    // switch (location.pathname) {
+    //   case '/remedy/add': setType('remedy');
+    //     break;
+    //   case '/booster/add': setType('booster');
+    //     break;
+    //   case '/poison/add': setType('poison');
+    //     break;
+    //   default: setType('');
+    //     break;
+    // }
   }, []);
 
   function toastAndResetValue(status, message) {
@@ -66,7 +77,7 @@ function AddBooster() {
       document
         .querySelectorAll("input[name='forKids']")
         .forEach((input) => (input.checked = false));
-      navigate("/booster");
+      navigate("/remedy");
     } else {
       toast.error(message || "Something went wrong. Please try again.", {
         className: "toastify-container",
@@ -82,11 +93,11 @@ function AddBooster() {
   }
 
   function handleSubmit() {
-    location.state ? handleUpdateBooster() : handleAddBooster();
+    location.state ? handleUpdateRemedy() : handleAddRemedy();
   }
 
-  const handleAddBooster = async () => {
-    const newBooster = {
+  const handleAddRemedy = async () => {
+    const newRemedy = {
       name: document.getElementById("name").value,
       part: selectedPart,
       ingredients: document
@@ -107,7 +118,7 @@ function AddBooster() {
         document.querySelector("input[name='forKids']:checked")?.value || "",
     };
 
-    if (newBooster.expiry < 0 || newBooster.expiry > 99) {
+    if (newRemedy.expiry < 0 || newRemedy.expiry > 99) {
       toast.error("Please Enter Valid Expiry", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
@@ -121,17 +132,17 @@ function AddBooster() {
       return;
     }
 
-    const { status, message } = await createBooster(newBooster); // Zustand call
+    const { status, message } = await createRemedy(newRemedy); // Zustand call
     if (!status || !message) {
       toastAndResetValue(status, message);
       return;
     }
 
-    toastAndResetValue(status, "Booster Added Succesfully");
+    toastAndResetValue(status, "Remedy Added Succesfully");
   };
 
-  const handleUpdateBooster = async () => {
-    const updatedBooster = {
+  const handleUpdateRemedy = async () => {
+    const updatedRemedy = {
       name: document.getElementById("name").value,
       part: selectedPart,
       ingredients: document
@@ -152,7 +163,7 @@ function AddBooster() {
       dosage: document.getElementById("dosage").value,
     };
 
-    if (updatedBooster.expiry < 0) {
+    if (updatedRemedy.expiry < 0) {
       toast.error("Please Enter Valid Expiry", {
         className: "toastify-container",
         bodyClassName: "toastify-container",
@@ -166,16 +177,16 @@ function AddBooster() {
       return;
     }
 
-    const { status, message } = await updateBooster(
-      location.state.booster._id,
-      updatedBooster
+    const { status, message } = await updateRemedy(
+      location.state.remedy._id,
+      updatedRemedy
     ); // Zustand call
     if (!status || !message) {
       toastAndResetValue(status, message);
       return;
     }
 
-    toastAndResetValue(status, "Booster Updated Successfully");
+    toastAndResetValue(status, "Remedy Updated Successfully");
   };
 
   return (
@@ -245,7 +256,7 @@ function AddBooster() {
               tabIndex="0"
               data-bs-toggle="popover"
               data-bs-trigger="hover focus"
-              data-bs-content="Value must be greater than 0. Use 99 if booster never expires."
+              data-bs-content="Value must be greater than 0. Use 99 if remedy never expires."
             >
               <button
                 className="btn btn-secondary p-1"
@@ -356,7 +367,7 @@ function AddBooster() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {location.state ? "Update" : "Add Booster"}
+            {location.state ? "Update" : "Add Remedy"}
             {loading && (
               <span
                 className="spinner-border spinner-border-sm ms-2"
@@ -370,4 +381,4 @@ function AddBooster() {
   );
 }
 
-export default AddBooster;
+export default AddRemedy;
