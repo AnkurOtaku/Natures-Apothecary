@@ -210,7 +210,7 @@ function RemedyCard({ remedy, modalId }) {
               className="text-info p-2 position-absolute top-0 end-0"
               data-bs-dismiss="offcanvasDark"
               aria-label="Update"
-              to="/update"
+              to="/remedy/update"
               state={{ remedy }}
             >
               <MdEdit size={"1.3em"} />
