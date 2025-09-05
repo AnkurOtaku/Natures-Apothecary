@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   // Set CORS headers
   const allowedOrigins = [
     "http://localhost:5173",
-    "https://pebble-bot-flame.vercel.app",
+    process.env.VITE_API_URL,
   ];
 
   const origin = req.headers.origin;
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   } else {
     res.setHeader(
       "Access-Control-Allow-Origin",
-      "https://pebble-bot-flame.vercel.app"
+      process.env.VITE_API_URL,
     ); // fallback or remove to restrict
   }
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
