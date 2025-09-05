@@ -20,7 +20,7 @@ export const useRemedyStore = create((set) => ({
   createRemedy: async (newRemedy) => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedy`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const useRemedyStore = create((set) => ({
   fetchRemedies: async () => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedies`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/remedy`);
       if (!res.ok) {
         console.error("Failed to fetch remedies");
         toast.error("Failed to fetch remedies", {
@@ -88,7 +88,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/remedies/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/remedy?id=${rid}`,
         {
           method: "DELETE",
         }
@@ -123,7 +123,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/remedies/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/remedy?id=${rid}`,
         {
           method: "PUT",
           headers: {
@@ -147,7 +147,7 @@ export const useRemedyStore = create((set) => ({
   createPoison: async (newPoison) => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/poisons`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/poison`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -177,7 +177,7 @@ export const useRemedyStore = create((set) => ({
   fetchPoisons: async () => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/poisons`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/poison`);
       if (!res.ok) {
         console.error("Failed to fetch poisons");
         toast.error("Failed to fetch poisons", {
@@ -215,7 +215,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/poisons/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/poison?id=${rid}`,
         {
           method: "DELETE",
         }
@@ -250,7 +250,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/poisons/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/poison?id=${rid}`,
         {
           method: "PUT",
           headers: {
@@ -274,7 +274,7 @@ export const useRemedyStore = create((set) => ({
   createBooster: async (newBooster) => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/boosters`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/booster`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -304,7 +304,7 @@ export const useRemedyStore = create((set) => ({
   fetchBoosters: async () => {
     try {
       set(() => ({ loading: true }));
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/boosters`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/booster`);
       if (!res.ok) {
         console.error("Failed to fetch boosters");
         toast.error("Failed to fetch boosters", {
@@ -342,7 +342,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/boosters/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/booster?id=${rid}`,
         {
           method: "DELETE",
         }
@@ -377,7 +377,7 @@ export const useRemedyStore = create((set) => ({
     try {
       set(() => ({ loading: true }));
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/boosters/${rid}`,
+        `${import.meta.env.VITE_API_URL}/api/booster?id=${rid}`,
         {
           method: "PUT",
           headers: {

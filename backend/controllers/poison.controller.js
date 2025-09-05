@@ -35,7 +35,7 @@ export const createPoison = async (req, res) => {
 
 // UPDATE
 export const updatedPoison = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const poison = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -57,7 +57,7 @@ export const updatedPoison = async (req, res) => {
 
 // DELETE
 export const deletePoison = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res

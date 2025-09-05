@@ -35,7 +35,7 @@ export const createBooster = async (req, res) => {
 
 // UPDATE
 export const updatedBooster = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const booster = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -57,7 +57,7 @@ export const updatedBooster = async (req, res) => {
 
 // DELETE
 export const deleteBooster = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res

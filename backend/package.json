@@ -1,0 +1,12 @@
+{
+  "name": "natures-apothecary-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "mongoose": "^8.9.5"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

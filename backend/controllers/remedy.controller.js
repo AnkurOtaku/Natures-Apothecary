@@ -35,7 +35,7 @@ export const createRemedy = async (req, res) => {
 
 // UPDATE
 export const updatedRemedy = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const remedy = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -57,7 +57,7 @@ export const updatedRemedy = async (req, res) => {
 
 // DELETE
 export const deleteRemedy = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res
