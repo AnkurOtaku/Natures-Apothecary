@@ -1,103 +1,143 @@
-# **Natural Remedies**
+# **Nature's Apothecary**
 
-A full-stack web application that allows users to manage and view natural remedies, including their ingredients, recipes, and other details. Built using the MERN stack (MongoDB, Express, React, Node.js) with Zustand for state management and Vite for the frontend.
+Nature's Apothecary is a modern full-stack web application built with React, Vite, and serverless backend APIs on Vercel. It allows users to manage their home remedies, poisons, and boosters with a clean, responsive interface and persistent storage via MongoDB Atlas.
 
 ---
-
 ## **Table of Contents**
 
 - [Features](#features)
-- [Tech Stack](#tech-stack)
+- [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Scripts](#scripts)
-- [Contributing](#contributing)
+- [Deployment](#deployment)
 - [License](#license)
-
 ---
 
 ## **Features**
-
-- Add, view, update, and delete natural remedies.
-- Manage remedy details like ingredients, recipes, cautions, and expiry.
-- Dynamically add and remove steps for recipes and cautions.
-- Responsive UI with modals for displaying remedy details.
-- RESTful API for backend with MongoDB for data storage.
-- Production-ready build with Node.js serving static frontend files.
+- Create, update, delete, and view remedies, poisons, and boosters.
+- Serverless API routes running on Vercel.
+- Modern React frontend with state management using Zustand.
+- Responsive design powered by Tailwind CSS.
+- Environment-based configuration for development and production.
 
 ---
 
-## **Tech Stack**
+## **Technologies Used**
 
-- **Frontend**: React, Zustand, Bootstrap, Vite
-- **Backend**: Node.js, Express.js, MongoDB
-- **Build Tools**: Vite, Nodemon, Concurrently
-- **State Management**: Zustand
-- **Environment Management**: dotenv
+- **Frontend:** React 18, Vite, Zustand, Tailwind CSS, React Router DOM, React Toastify
+- **Backend:** Node.js serverless API routes on Vercel, MongoDB with Mongoose ODM
+- **Deployment:** Vercel for frontend and backend hosting
+- **Others:** ESLint, PostCSS, Autoprefixer, CORS middleware
 
 ---
 
-## **Installation**
+## **Installation & Setup**
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/natural-remedies.git
-   cd natural-remedies
-   ```
-2. Install dependencies for both frontend and backend:
-   ```bash
-   npm install
-   npm install --prefix frontend
-   ```
-3. Create a .env file in the root directory with the following variables:
-   ```bash
-   DATABASE_URI=your_mongo_db_connection_string
-   ```
+### Prerequisites
 
-## **Usage**
-### **Development**
-Start both the backend and frontend in development mode:
+- Node.js v20.x or later
+- npm v9.x or later
+- MongoDB Atlas cluster URI
+- Vercel CLI (optional for local serverless API emulation and deployments)
+
+---
+
+### Backend Setup
+
+1. Navigate to the backend folder:
+```bash
+cd backend
+```
+2. Install dependencies:
+```bash
+npm install
+```
+3. Create a `.env` file in the **root directory** (one level above backend):
+```bash
+MONGO_URI=your_mongodb_atlas_connection_string
+PORT=5000
+```
+4. Start local backend serverless environment with:
+```bash
+vercel dev
+```
+This runs your APIs locally at [http://localhost:3000].
+---
+
+### Frontend Setup
+
+1. Navigate to the frontend folder:
+```bash
+cd frontend
+```
+2. Install dependencies:
+```bash
+npm install
+```
+3. Create `.env.development` & `.env.production` with backend API URL:
+```bash
+VITE_API_URL=http://localhost:3000
+```
+```bash
+VITE_API_URL=your-backend-deployed-url
+```
+4. Start the frontend development server:
 ```bash
 npm run dev
 ```
+5. Access the app at [http://localhost:5173].
 
-- Backend runs on http://localhost:5000
-- Frontend runs on http://localhost:5173
+---
 
-### **Production**
-1. Build the frontend
- ```bash
- npm run build
- ```
-2. Start the production server:
- ```bash
- npm start
- ```
-3. Access the app at http://localhost:5000 .
+## Environment Variables
 
-## **Scripts**
-- npm run dev : Runs both backend and frontend in development mode.
-- npm run build: Builds the frontend for production
-- npm start: Runs the production server.
+| Variable       | Description                            |
+|----------------|------------------------------------|
+| `MONGO_URI`    | MongoDB Atlas connection string for backend DB |
+| `PORT`         | Port in case of malfunction                    |
+| `VITE_API_URL` | Base URL for backend API (used in frontend)     |
 
-## **Contributing**
-1. Fork the repository.
-2. Create a feature branch:
- ```bash
- git checkout -b feature/your-feature-name
- ```
-3. Commit your changes:
- ```bash
- git commit -m "Add your changes here"
- ```
+Set these variables in your `.env` files locally and securely in Vercel project dashboard for production.
 
-4. Push the branch:
- ```bash
- git push origin feature/your-feature-name
- ```
+---
 
-5. Open a pull request.
+## Key npm Packages
+
+| Package              | Role                                         |
+|----------------------|----------------------------------------------|
+| react, react-dom     | Core UI Library                              |
+| vite                 | Build tool & dev server                       |
+| zustand              | React state management                        |
+| tailwindcss          | Utility-first CSS styling                      |
+| react-router-dom     | Client-side routing                           |
+| react-toastify       | Toast notifications UI                        |
+| mongoose             | MongoDB object modeling                       |
+| dotenv               | Environment variable loader                    |
+| cors                 | Enables CORS in backend API                   |
+| eslint               | Code linting & formatting                     |
+
+---
+
+## **Deployment**
+
+- Use Vercel CLI for local development and deployment with:
+
+```
+vercel dev
+vercel deploy
+```
+- Backend APIs run as serverless functions under `/api` in backend.
+- Frontend is deployed as a static site optimized by Vite.
+- Set environment variables securely in Vercel dashboard.
+
+---
 
 ## **License**
 
 This project is licensed under the **MIT License**.
+
+---
+
+Thank you for checking out Nature's Apothecary!  
+Feel free to contribute or raise issues.
+
+---
